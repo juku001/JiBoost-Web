@@ -1,0 +1,109 @@
+
+.jb-heading {
+    font-family: "Fredoka One", cursive !important;
+    color: var(--jb-heading-color);
+}
+
+
+.image-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    height: 20vh; /* 20% of the viewport height */
+    min-height: 100px; /* Ensure it doesn’t shrink too much */
+    max-height: 200px; /* Prevent it from getting too large */
+}
+
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Ensures the image covers the container without distorting */
+    border-radius: 15px;
+    /* Apply the same border radius to the image */
+}
+
+.scrollable-row {
+    display: flex;
+    flex-wrap: nowrap;
+    /* Ensure items stay in a single row */
+    overflow-x: scroll;
+    /* Enable horizontal scrolling */
+    padding-bottom: 15px;
+    /* Optional, just for better scroll visibility */
+}
+
+.scrollable-row .col-6 {
+    flex: 0 0 auto;
+    /* Prevent items from resizing */
+    margin-right: 15px;
+    /* Optional, for spacing between items */
+}
+
+/* Hide scrollbar */
+.scrollable-row::-webkit-scrollbar {
+    display: none;
+}
+
+/* For Firefox */
+.scrollable-row {
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+
+
+.subject-box {
+    overflow: hidden; /* Prevents images from overflowing their container */
+    position: relative;
+    height: 200px; /* You can adjust this height as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.subject-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the image covers the entire box without distortion */
+    border-radius: 10px; /* Rounded corners */
+}
+
+.subject-name {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.6); /* Optional: to improve text visibility */
+    padding: 5px;
+    font-size: 16px;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .subject-box {
+        height: 150px; /* Adjust for smaller screens if needed */
+    }
+}
+
+@media (max-width: 576px) {
+    .subject-box {
+        height: 120px; /* Adjust for even smaller screens if needed */
+    }
+}
+
+
+.level-subject-card {
+    width: 100%;
+    height: 200px; /* Set a fixed height */
+    overflow: hidden;
+}
+
+.level-subject-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures image covers the whole height */
+}
