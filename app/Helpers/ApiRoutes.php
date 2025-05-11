@@ -59,6 +59,17 @@ class ApiRoutes
         return self::apiUrl() . 'users';
     }
 
+
+
+
+    public static function user()
+    {
+        return self::apiUrl() . 'user';
+    }
+
+
+
+
     /**
      * User Routes
      */

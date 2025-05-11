@@ -282,4 +282,46 @@ class AuthController extends Controller
         return redirect()->route('auth.login');
     }
 
+
+    public function destroy(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required'
+        ]);
+    
+        $flasher = new FlasherHelper();
+    
+        if ($validator->fails()) {
+            foreach ($validator->errors()->all() as $value) {
+                $flasher->error($value);
+            }
+            return redirect()->back();
+        }
+    
+        $token = (string) session(env('API_TOKEN_KEY'));
+        $url = ApiRoutes::user(); // Assuming this returns the API endpoint for deleting user
+    
+        try {
+            $response = Http::withToken($token)->delete($url, [
+                'password' => $request->password
+            ]);
+    
+            if ($response->successful()) {
+                session()->forget('api_token');
+    
+                $flasher->success('Your account has been deleted.');
+                return redirect()->route('auth.login');
+            } else {
+                // Handle failure from API (e.g., wrong password or server error)
+                $message = $response->json('message') ?? 'Failed to delete account. Please try again.';
+                $flasher->error($message);
+                return redirect()->back();
+            }
+        } catch (\Exception $e) {
+            $flasher->error('Something went wrong. Please try again later.');
+            return redirect()->back();
+        }
+    }
+    
+
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\ExamController;
 use App\Http\Controllers\ExaminationController;
 use App\Http\Controllers\ExamResultController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\SpecialDocumentsController;
@@ -16,8 +17,8 @@ use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
-Route::get('/', [WelcomeController::class,'index'])->name('welcome')->middleware('isFirstUser');
-Route::get('privacy-policy',[SpecialDocumentsController::class,'privacy']);
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome')->middleware('isFirstUser');
+Route::get('privacy-policy', [SpecialDocumentsController::class, 'privacy']);
 
 Route::middleware(['guest.api'])->group(function () {
     Route::get('/login', [AuthController::class, 'index'])->name('auth.login');
@@ -31,6 +32,15 @@ Route::middleware(['guest.api'])->group(function () {
 Route::middleware(['api.auth'])->group(function () {
 
     Route::middleware(['isNotAdmin'])->group(function () {
+
+
+        Route::prefix('profile')->group(function () {
+            Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
+            Route::get('/delete', [AuthController::class, 'destroy'])->name('profile.delete'); //not yet done.
+
+        });
+
+
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.home');
         Route::get('/payments', [PaymentController::class, 'index'])->name('dashboard.payments');
         Route::get('/results', [ExamResultController::class, 'index'])->name('dashboard.results');
@@ -39,10 +49,10 @@ Route::middleware(['api.auth'])->group(function () {
         Route::get('/confirmation', [SubscriptionController::class, 'wait'])->name('dashboard.subscription.wait');
         Route::prefix('exams')->group(function () {
             Route::get('/', [ExamController::class, 'index'])->name('dashboard.exams');
-            Route::get('/{id}',[ExaminationController::class, 'series'])->name('examination.series');
-            Route::get('/{sub}/{series}',[ExaminationController::class,'examInfo'])->name('examination.series.show');
-            Route::get('/{sub}/{series}/start',[ExaminationController::class,'startExam'])->name('examination.series.start');
-            Route::post('/{sub}/{series}/submit',[ExaminationController::class,'submitExam'])->name('examination.series.submit');
+            Route::get('/{id}', [ExaminationController::class, 'series'])->name('examination.series');
+            Route::get('/{sub}/{series}', [ExaminationController::class, 'examInfo'])->name('examination.series.show');
+            Route::get('/{sub}/{series}/start', [ExaminationController::class, 'startExam'])->name('examination.series.start');
+            Route::post('/{sub}/{series}/submit', [ExaminationController::class, 'submitExam'])->name('examination.series.submit');
         });
     });
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
