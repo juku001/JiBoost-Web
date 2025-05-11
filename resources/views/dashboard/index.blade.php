@@ -40,15 +40,15 @@
                                                 </div>
                                             </div>
                                         @else
-                                            <div class="bg-danger-subtle rounded-4 text-center d-flex align-items-center justify-content-center"
+                                            <div class="bg-success-subtle rounded-4 text-center d-flex align-items-center justify-content-center"
                                                 style="height: 25vh; min-height: 35vh;">
                                                 <div class="row">
                                                     <div>
-                                                        <p class="text-danger-emphasis">You don't have any active
+                                                        <p class="text-success-emphasis">You don't have any active
                                                             subscription</p>
                                                     </div>
                                                     <div class="">
-                                                        <a class="btn btn-danger me-1 mb-1"
+                                                        <a class="btn btn-success me-1 mb-1"
                                                             href="{{ route('dashboard.subscription') }}">Subscribe</a>
                                                     </div>
                                                 </div>

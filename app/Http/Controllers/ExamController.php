@@ -250,7 +250,7 @@ class ExamController extends Controller
             'option_c' => 'required',
             'option_d' => 'required',
             'correct_option' => 'required',
-            'image' => 'nullable|image|mimes:jpg,png|max:2048', // Ensure it's an image & restrict format
+            'image' => 'nullable|image|max:2048', // Ensure it's an image & restrict format
             'mark' => 'nullable|numeric'
         ]);
 
@@ -270,8 +270,6 @@ class ExamController extends Controller
 
         try {
             $response = Http::withToken($token)->post($url, $data);
-
-
 
             if ($response->successful()) {
                 if ($response->getStatusCode() == 201) {

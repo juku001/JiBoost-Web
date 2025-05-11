@@ -39,7 +39,7 @@
             <h2 class="mb-4">Add Question</h2>
         </div>
         <form action="{{ route('admin.exams.questions.store', ['levelSub' => $levelSub, 'seriesId' => $seriesId]) }}"
-            method="POST">
+            method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-12 mb-2">

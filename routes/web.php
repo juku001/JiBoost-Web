@@ -9,6 +9,7 @@ use App\Http\Controllers\ExamResultController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\SpecialDocumentsController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\WelcomeController;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
 Route::get('/', [WelcomeController::class,'index'])->name('welcome')->middleware('isFirstUser');
-
+Route::get('privacy-policy',[SpecialDocumentsController::class,'privacy']);
 
 Route::middleware(['guest.api'])->group(function () {
     Route::get('/login', [AuthController::class, 'index'])->name('auth.login');
