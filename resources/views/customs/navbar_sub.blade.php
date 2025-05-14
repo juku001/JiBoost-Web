@@ -2,7 +2,7 @@
     <div class="collapse navbar-collapse justify-content-between">
         <div class="navbar-logo">
             <a href="javascript:history.back()" style="text-decoration: none">
-                <span class="text-dark">
+                <span class="back-button">
                     <span data-feather="arrow-left"></span>
                     <span>Back</span>
                 </span>

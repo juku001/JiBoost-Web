@@ -25,7 +25,6 @@
         rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
 
-
     <link rel="stylesheet" href="{{ asset('assets/welcome/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/welcome/css/animate.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/welcome/css/icofont.min.css') }}">
@@ -58,42 +57,6 @@
     </div>
     <!-- mouse-cursor-end -->
 
-    <!-- header begin -->
-    {{-- <div class="header header-style-1">
-        <div class="top-header">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-9 col-lg-9">
-                        <div class="top-left">
-                            <div class="d-sm-flex">
-                                <div class="header-txt pr-30"><a href="mail:thespidergraphics@gmail.com"><i
-                                            class="icofont-email"></i> thespidergraphics@gmail.com</a></div>
-                                <div class="header-txt px-30"><a href="tel:+255615331132"><i class="icofont-phone"></i>
-                                        +255 615 331 132</a></div>
-                                <div class="header-txt pl-30"><i class="icofont-google-map"></i> Makumbusho, Dar es
-                                    salaam. Tanzania</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3">
-                        <div class="top-right">
-                            <div class="d-flex justify-content-lg-end justify-content-center">
-                                <a href="#" class="header-right-txt"><i
-                                        class="icofont-facebook-messenger"></i></a>
-                                <a href="#" class="header-right-txt"><i class="icofont-twitter"></i></a>
-                                <a href="#" class="header-right-txt"><i class="icofont-instagram"></i></a>
-                                <a href="#" class="header-right-txt"><i class="icofont-youtube"></i></a>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div> --}}
-    <!-- header end -->
-
     @yield('content')
 
 
@@ -105,6 +68,8 @@
     <script src={{ asset('assets/welcome/js/simple-pagination.js') }}></script>
     <script src={{ asset('assets/welcome/js/main.js') }}></script>
     <script src={{ asset('assets/welcome/js/admin.js') }}></script>
+
+    @yield('plugin-scripts')
 </body>
 
 </html>

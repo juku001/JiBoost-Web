@@ -48,6 +48,28 @@ class ApiRoutes
         return self::apiUrl() . 'register';
     }
 
+
+    public static function forgotPassword()
+    {
+        return self::apiUrl() . 'forgot_password';
+    }
+
+    public static function verifyOTP()
+    {
+        return self::apiUrl() . 'verify_otp';
+    }
+
+
+    public static function resetPassword()
+    {
+        return self::apiUrl() . 'reset_password';
+    }
+
+
+
+
+
+
     public static function logout(): string
     {
         return self::apiUrl() . 'logout';
@@ -93,7 +115,7 @@ class ApiRoutes
 
     public static function examResults(): string
     {
-        return self::apiUrl() . 'exams/results';
+        return self::apiUrl() . 'results';
     }
 
     /**
@@ -102,6 +124,11 @@ class ApiRoutes
     public static function payments(): string
     {
         return self::apiUrl() . 'payments';
+    }
+
+    public static function singlePayment($id): string
+    {
+        return self::apiUrl() . 'payments/' . $id;
     }
 
     public static function educationLevels()
@@ -168,6 +195,12 @@ class ApiRoutes
     public function subscription()
     {
         return self::apiUrl() . 'subscription';
+    }
+
+
+    public function subscriptionPPE()
+    {
+        return self::apiUrl() . 'subscription_ppe';
     }
 
 

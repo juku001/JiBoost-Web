@@ -13040,12 +13040,12 @@ input[type="radio"]:checked+.jb-radio::before {
 
 
 
-.login-item{
+.login-item {
   width: 100%;
 }
 
 
-.login-item input{
+.login-item input {
   border: 1px solid #103259;
   width: inherit;
   border-radius: 45px;
@@ -13053,9 +13053,9 @@ input[type="radio"]:checked+.jb-radio::before {
 }
 
 
-.login-item input:focus{
+.login-item input:focus {
   border: 2px solid #00394F;
-  box-shadow:inherit;
+  box-shadow: inherit;
 }
 
 
@@ -13065,8 +13065,10 @@ input[type="radio"]:checked+.jb-radio::before {
   height: 30px;
   line-height: 30px;
   border-radius: 50%;
-  background-color: #e0e0e0; /* Light gray background */
-  color: #fff; /* White text */
+  background-color: #e0e0e0;
+  /* Light gray background */
+  color: #fff;
+  /* White text */
   text-align: center;
   font-size: 16px;
   font-weight: bold;
@@ -13075,11 +13077,13 @@ input[type="radio"]:checked+.jb-radio::before {
 }
 
 .signup-step.active {
-  background-color: #00394F; /* Blue background for active step */
+  background-color: #00394F;
+  /* Blue background for active step */
 }
 
 .signup-step.complete {
-  background-color: green; /* Green background for completed steps */
+  background-color: green;
+  /* Green background for completed steps */
 }
 
 
@@ -13109,30 +13113,26 @@ input[type="radio"]:checked+.jb-radio::before {
 
 
 
-.pricing-item{
+.pricing-item {
   color: white;
-  padding : 40px 10px;
+  padding: 40px 10px;
   height: 70vh;
   padding-top: 15vh;
   border: white solid 2px;
   border-radius: 20px;
 }
 
-.pricing-item.middle-item{
+.pricing-item.middle-item {
   height: 80vh;
   padding-top: 20vh;
 }
 
-.pricing-item h3{
+.pricing-item h3 {
   font-family: "Fredoka One", cursive;
 }
 
-.pricing-item:hover{
-  color : #00394f;
+.pricing-item:hover {
+  color: #00394f;
   background-color: white;
 }
 
-
-
-
-/*# sourceMappingURL=style.css.map */

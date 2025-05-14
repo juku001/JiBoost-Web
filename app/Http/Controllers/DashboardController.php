@@ -15,13 +15,16 @@ class DashboardController extends Controller
         $apiRoutes = new ApiRoutes();
         $urlSubscription = $apiRoutes->subscription();
         $urlQuote = $apiRoutes->getQuote();
+        $urlPayPerExam = $apiRoutes->subscriptionPPE();
 
         $token = (string) session(env('API_TOKEN_KEY'));
         $subscriptionResponse = Http::withToken($token)->get($urlSubscription);
         $quoteResponse = Http::withToken($token)->get($urlQuote);
+        $ppeResponse = Http::withToken($token)->get($urlPayPerExam);
 
         $subBody = $subscriptionResponse->json();
         $quoBody = $quoteResponse->json();
+        $ppeBody = $ppeResponse->json();
 
         if ($subBody['status'] == false) {
             $subscription = null;
@@ -39,8 +42,13 @@ class DashboardController extends Controller
             $quote = $quoBody['data'];
         }
 
+        if ($ppeBody['status'] == false) {
+            $ppe = null;
+        } else {
+            $ppe = $ppeBody['data'];
+        }
 
-        return view('dashboard.index', compact('subscription', 'quote'));
+        return view('dashboard.index', compact('subscription', 'quote','ppe'));
     }
 
 

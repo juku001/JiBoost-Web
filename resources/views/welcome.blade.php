@@ -76,13 +76,26 @@
                     <div class="col-xl-9 col-lg-9">
                         <div class="top-left">
                             <div class="d-sm-flex">
-                                <div class="header-txt pr-30"><a href="mail:{{ $welcomeData['contact']['email'] }}"><i
-                                            class="icofont-email"></i>{{ $welcomeData['contact']['email'] }}</a></div>
-                                <div class="header-txt px-30"><a href="tel:+255714257454"><i class="icofont-phone"></i>
-                                        {{ $welcomeData['contact']['mobile'] ?? '+255 714 257 454' }}</a></div>
-                                <div class="header-txt pl-30"><i
-                                        class="icofont-google-map"></i>{{ $welcomeData['contact']['location'] }}</div>
+                                <div class="header-txt pr-30">
+                                    <a href="mailto:{{ $welcomeData['contact']['email'] ?? 'info@example.com' }}">
+                                        <i class="icofont-email"></i>
+                                        {{ $welcomeData['contact']['email'] ?? 'info@example.com' }}
+                                    </a>
+                                </div>
+
+                                <div class="header-txt px-30">
+                                    <a href="tel:{{ $welcomeData['contact']['mobile'] ?? '+255714257454' }}">
+                                        <i class="icofont-phone"></i>
+                                        {{ $welcomeData['contact']['mobile'] ?? '+255 714 257 454' }}
+                                    </a>
+                                </div>
+
+                                <div class="header-txt pl-30">
+                                    <i class="icofont-google-map"></i>
+                                    {{ $welcomeData['contact']['location'] ?? 'Our Office - Dar es Salaam, Tanzania' }}
+                                </div>
                             </div>
+
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-3">

@@ -14,12 +14,10 @@ class AuthController extends Controller
     public function index()
     {
 
+        session()->remove('email_submitted');
+        session()->remove('email_verified');
         return view('auth.login');
     }
-
-
-
-
 
     public function register()
     {
@@ -63,60 +61,6 @@ class AuthController extends Controller
         return view('auth.signup', compact('userType', 'levels'));
     }
 
-
-    // public function create(Request $request)
-    // {
-    //     $flasher = new FlasherHelper();
-
-    //     // Validate input
-    //     $validator = Validator::make($request->all(), [
-    //         'username' => 'required|email',
-    //         'password' => 'required|string'
-    //     ]);
-
-    //     if ($validator->fails()) {
-    //         foreach ($validator->errors()->all() as $error) {
-    //             $flasher->error($error);
-    //         }
-    //         return redirect()->back()->withInput();
-    //     }
-
-    //     // Prepare API request
-    //     $url = ApiRoutes::login(); // Get login API endpoint
-    //     $data = [
-    //         'email' => $request->username,
-    //         'password' => $request->password
-    //     ];
-
-    //     try {
-    //         $client = new \GuzzleHttp\Client();
-    //         $response = $client->post($url, [
-    //             'json' => $data,
-    //             'headers' => ['Accept' => 'application/json']
-    //         ]);
-
-    //         $body = json_decode($response->getBody(), true);
-
-    //         if (isset($body['token'])) {
-    //             session(['api_token' => $body['token']]);
-    //             return redirect()->route('dashboard.home');
-    //         } else {
-    //             $flasher->error($body['message'] ?? 'Login failed. Please try again.');
-    //         }
-    //     } catch (\GuzzleHttp\Exception\RequestException $e) {
-    //         if ($e->hasResponse()) {
-    //             $errorResponse = json_decode($e->getResponse()->getBody()->getContents(), true);
-    //             $errorMessage = $errorResponse['message'] ?? 'Server error.';
-    //         } else {
-    //             $errorMessage = 'Server error.';
-    //         }
-
-    //         $flasher->error($errorMessage);
-    //     }
-
-    //     return redirect()->back()->withInput();
-
-    // }
 
     public function create(Request $request)
     {
@@ -191,9 +135,6 @@ class AuthController extends Controller
             return redirect()->back();
         }
     }
-
-
-
 
 
     public function store(Request $request)
@@ -273,7 +214,6 @@ class AuthController extends Controller
     }
 
 
-
     public function logout()
     {
         session()->forget('api_token');
@@ -288,27 +228,27 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'password' => 'required'
         ]);
-    
+
         $flasher = new FlasherHelper();
-    
+
         if ($validator->fails()) {
             foreach ($validator->errors()->all() as $value) {
                 $flasher->error($value);
             }
             return redirect()->back();
         }
-    
+
         $token = (string) session(env('API_TOKEN_KEY'));
         $url = ApiRoutes::user(); // Assuming this returns the API endpoint for deleting user
-    
+
         try {
             $response = Http::withToken($token)->delete($url, [
                 'password' => $request->password
             ]);
-    
+
             if ($response->successful()) {
                 session()->forget('api_token');
-    
+
                 $flasher->success('Your account has been deleted.');
                 return redirect()->route('auth.login');
             } else {
@@ -322,6 +262,192 @@ class AuthController extends Controller
             return redirect()->back();
         }
     }
-    
+
+
+
+    public function forgot()
+    {
+
+        return view('auth.forgot_password');
+    }
+
+
+    public function email(Request $request)
+    {
+
+        $flasher = new FlasherHelper();
+        $email = $request->username;
+        $url = ApiRoutes::forgotPassword();
+        $data = [
+            'email' => $email
+        ];
+        try {
+            $response = Http::post($url, $data);
+
+            $responseData = $response->json();
+
+            if ($responseData['status'] === true) {
+                session(['email_submitted' => $email]);
+                return redirect()->route('password.send');
+            } else {
+                // If there are validation errors
+                if (isset($responseData['errors'])) {
+                    foreach ($responseData['errors'] as $field => $messages) {
+                        foreach ($messages as $message) {
+                            $flasher->error($message); // Show each validation message
+                        }
+                    }
+                } else {
+                    // Optionally show the general message if available
+                    if (isset($responseData['message'])) {
+                        $flasher->error($responseData['message']);
+                    }
+                }
+                return redirect()->back()->withInput(); // Optional: repopulate form fields
+            }
+        } catch (Exception $e) {
+            $flasher->error("Something happened. Error : " . $e);
+            return redirect()->back();
+        }
+    }
+
+
+
+    public function send_code()
+    {
+
+        // Check if the session key exists
+        if (!session()->has('email_submitted')) {
+            return redirect()->route('password.forgot')->with('error', 'You must enter your email first.');
+        }
+
+        $email = session('email_submitted');
+
+        return view('auth.verify_code', compact('email'));
+    }
+
+
+    public function verify(Request $request)
+    {
+        $flasher = new FlasherHelper();
+        $validator = Validator::make($request->all(), [
+            'otp' => 'required',
+            'email' => 'required'
+        ]);
+        if ($validator->fails()) {
+            $errorMessage = $validator->errors()->first();
+            $flasher->error($errorMessage);
+            return redirect()->back()->withInput();
+        }
+
+        $otpArray = $request->otp;
+        $otp = (int) implode('', $otpArray);
+        $email = $request->email;
+        $url = ApiRoutes::verifyOTP();
+        $data = [
+            'code' => $otp,
+            'email' => $email
+        ];
+        try {
+            $response = Http::post($url, $data);
+
+            $responseData = $response->json();
+
+            if ($responseData['status'] === true) {
+                session(['email_verified' => true]);
+                return redirect()->route('password.reset');
+            } else {
+                // If there are validation errors
+                if (isset($responseData['errors'])) {
+                    foreach ($responseData['errors'] as $field => $messages) {
+                        foreach ($messages as $message) {
+                            $flasher->error($message); // Show each validation message
+                        }
+                    }
+                } else {
+                    // Optionally show the general message if available
+                    if (isset($responseData['message'])) {
+                        $flasher->error($responseData['message']);
+                    }
+                }
+                return redirect()->back()->withInput(); // Optional: repopulate form fields
+            }
+        } catch (Exception $e) {
+            $flasher->error("Something happened. Error : " . $e);
+            return redirect()->back();
+        }
+
+    }
+
+
+    public function reset()
+    {
+        if (!session()->has('email_verified')) {
+            return redirect()->route('password.forgot')->with('error', 'You must verify your email first.');
+        }
+
+         $email = session('email_submitted');
+        return view('auth.reset_password');
+    }
+
+
+    public function resetPassword(Request $request)
+    {
+
+        $flasher = new FlasherHelper();
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            $errorMessage = $validator->errors()->first();
+            $flasher->error($errorMessage);
+            return redirect()->back()->withInput();
+        }
+
+        $email = session('email_submitted');
+        $password = $request->password;
+        $re_password = $request->password_confirmation;
+        $url = ApiRoutes::resetPassword();
+        $data = [
+            'email' => $email,
+            'password' => $password,
+            'password_confirmation' => $re_password
+        ];
+
+        try {
+            $response = Http::post($url, $data);
+
+            $responseData = $response->json();
+
+            if ($responseData['status'] === true) {
+                $flasher->success($responseData['message']);
+                return redirect()->route('auth.login');
+            } else {
+                // If there are validation errors
+                if (isset($responseData['errors'])) {
+                    foreach ($responseData['errors'] as $field => $messages) {
+                        foreach ($messages as $message) {
+                            $flasher->error($message); // Show each validation message
+                        }
+                    }
+                } else {
+                    // Optionally show the general message if available
+                    if (isset($responseData['message'])) {
+                        $flasher->error($responseData['message']);
+                    }
+                }
+                return redirect()->back()->withInput(); // Optional: repopulate form fields
+            }
+        } catch (Exception $e) {
+            $flasher->error("Something happened. Error : " . $e);
+            return redirect()->back();
+        }
+
+
+
+
+    }
+
 
 }

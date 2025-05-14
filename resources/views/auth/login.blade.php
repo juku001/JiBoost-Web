@@ -43,7 +43,7 @@
                             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-2">
                                 <p class="mb-0">Not Registered Yet? <a href="{{ route('auth.register') }}">Click here</a>
                                 </p>
-                                <p class="mb-0"><a href="#">Forgot Password</a></p>
+                                <p class="mb-0"><a href="{{ route('password.forgot') }}">Forgot Password</a></p>
                             </div>
                             <p class="mt-2"><a href="{{ url('/?reset_welcome=1') }}">Back to Welcome Page</a></p>
                         </div>
@@ -52,4 +52,10 @@
             </div>
         </div>
     </section>
+@endsection
+@section('plugin-scripts')
+    <script>
+        const EXPIRY_KEY = 'otp_expiry_time';
+        let expiryTime = localStorage.deleteItem(EXPIRY_KEY);
+    </script>
 @endsection

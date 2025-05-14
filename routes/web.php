@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome')->middleware('isFirstUser');
 Route::get('privacy-policy', [SpecialDocumentsController::class, 'privacy']);
+Route::get('app', [SpecialDocumentsController::class, 'app']);
 
 Route::middleware(['guest.api'])->group(function () {
     Route::get('/login', [AuthController::class, 'index'])->name('auth.login');
@@ -27,22 +28,30 @@ Route::middleware(['guest.api'])->group(function () {
     Route::get('/register/start', [AuthController::class, 'type'])->name('auth.register.type');
     Route::post('/signup/start', [AuthController::class, 'store'])->name('signup');
 
+    //new here
+    Route::get('forgot_password', [AuthController::class, 'forgot'])->name('password.forgot');
+    Route::post('forgot_password', [AuthController::class, 'email'])->name('password.email');
+    Route::get('verify', [AuthController::class, 'send_code'])->name('password.send');
+    Route::post('verify', [AuthController::class, 'verify'])->name('password.verify');
+    Route::post('resend', [AuthController::class, 'resend'])->name('password.resend');
+    Route::get('reset_password', [AuthController::class, 'reset'])->name('password.reset');
+    Route::post('reset_password', [AuthController::class, 'resetPassword'])->name('password.new');
 });
 
 Route::middleware(['api.auth'])->group(function () {
 
+    Route::prefix('/profile')->group(function () {
+        Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
+        Route::get('/delete', [AuthController::class, 'destroy'])->name('profile.delete'); //not yet done.
+
+    });
     Route::middleware(['isNotAdmin'])->group(function () {
 
-
-        Route::prefix('profile')->group(function () {
-            Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
-            Route::get('/delete', [AuthController::class, 'destroy'])->name('profile.delete'); //not yet done.
-
-        });
-
-
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.home');
+
         Route::get('/payments', [PaymentController::class, 'index'])->name('dashboard.payments');
+        Route::get('/payments/{id}', [PaymentController::class, 'show'])->name('dashboard.payments.show');
+
         Route::get('/results', [ExamResultController::class, 'index'])->name('dashboard.results');
         Route::get('/subscribe', [SubscriptionController::class, 'index'])->name('dashboard.subscription');
         Route::post('/subscribe', [SubscriptionController::class, 'store'])->name('dashboard.subscribe');
@@ -88,68 +97,68 @@ Route::middleware(['api.auth'])->group(function () {
 
 
 
-Route::get('/tester', function () {
-    $questions = [
-        // **Chemical Equations**
-        'chemical' => '\\( CH_4 + 2O_2 \\rightarrow CO_2 + 2H_2O \\)',
+// Route::get('/tester', function () {
+//     $questions = [
+//         // **Chemical Equations**
+//         'chemical' => '\\( CH_4 + 2O_2 \\rightarrow CO_2 + 2H_2O \\)',
 
-        // **Differential Equation**
-        'differential' => '\\( \\frac{dy}{dx} = x^2 + y^2 \\)',
+//         // **Differential Equation**
+//         'differential' => '\\( \\frac{dy}{dx} = x^2 + y^2 \\)',
 
-        // **Quadratic Equation**
-        'quadratic' => '\\( ax^2 + bx + c = 0 \\)',
+//         // **Quadratic Equation**
+//         'quadratic' => '\\( ax^2 + bx + c = 0 \\)',
 
-        // **Integral Calculus**
-        'integral' => '\\( \\int_0^1 x^2 dx \\)',
+//         // **Integral Calculus**
+//         'integral' => '\\( \\int_0^1 x^2 dx \\)',
 
-        // **Summation Notation**
-        'summation' => '\\( \\sum_{n=1}^{\\infty} \\frac{1}{n^2} \\)',
+//         // **Summation Notation**
+//         'summation' => '\\( \\sum_{n=1}^{\\infty} \\frac{1}{n^2} \\)',
 
-        // **Pythagorean Theorem**
-        'pythagorean' => '\\( a^2 + b^2 = c^2 \\)',
+//         // **Pythagorean Theorem**
+//         'pythagorean' => '\\( a^2 + b^2 = c^2 \\)',
 
-        // **Binomial Theorem**
-        'binomial' => '\\( (a + b)^n = \\sum_{k=0}^{n} \\binom{n}{k} a^{n-k} b^k \\)',
+//         // **Binomial Theorem**
+//         'binomial' => '\\( (a + b)^n = \\sum_{k=0}^{n} \\binom{n}{k} a^{n-k} b^k \\)',
 
-        // **Limits**
-        'limit' => '\\( \\lim_{x \\to \\infty} \\frac{1}{x} = 0 \\)',
+//         // **Limits**
+//         'limit' => '\\( \\lim_{x \\to \\infty} \\frac{1}{x} = 0 \\)',
 
-        // **Logarithmic Identity**
-        'logarithm' => '\\( \\log_a (bc) = \\log_a b + \\log_a c \\)',
+//         // **Logarithmic Identity**
+//         'logarithm' => '\\( \\log_a (bc) = \\log_a b + \\log_a c \\)',
 
-        // **Matrix Representation**
-        'matrix' => '\\( A = \\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix} \\)',
+//         // **Matrix Representation**
+//         'matrix' => '\\( A = \\begin{bmatrix} a & b \\\\ c & d \\end{bmatrix} \\)',
 
-        // **Trigonometric Identity**
-        'trigonometry' => '\\( \\sin^2 x + \\cos^2 x = 1 \\)',
-
-
-
-        // **Einstein's Mass-Energy Equation**
-        'einstein' => '\\( E = mc^2 \\)',
-
-        // **Probability Formula**
-        'probability' => '\\( P(A \\cap B) = P(A) P(B) \\)',
-
-        // **Vector Dot Product**
-        'dot_product' => '\\( \\mathbf{A} \\cdot \\mathbf{B} = |\\mathbf{A}| |\\mathbf{B}| \\cos \\theta \\)',
-
-        // **Fourier Series**
-        'fourier' => '\\( f(x) = a_0 + \\sum_{n=1}^{\\infty} a_n \\cos(nx) + b_n \\sin(nx) \\)'
-    ];
-
-    return view('tester', compact('questions'));
-});
+//         // **Trigonometric Identity**
+//         'trigonometry' => '\\( \\sin^2 x + \\cos^2 x = 1 \\)',
 
 
 
-Route::get('/tester_add', function () {
-    return view('tester_quill');
-});
+//         // **Einstein's Mass-Energy Equation**
+//         'einstein' => '\\( E = mc^2 \\)',
 
-Route::post('/test_add', function (Request $request) {
+//         // **Probability Formula**
+//         'probability' => '\\( P(A \\cap B) = P(A) P(B) \\)',
 
-    return response()->json($request);
+//         // **Vector Dot Product**
+//         'dot_product' => '\\( \\mathbf{A} \\cdot \\mathbf{B} = |\\mathbf{A}| |\\mathbf{B}| \\cos \\theta \\)',
+
+//         // **Fourier Series**
+//         'fourier' => '\\( f(x) = a_0 + \\sum_{n=1}^{\\infty} a_n \\cos(nx) + b_n \\sin(nx) \\)'
+//     ];
+
+//     return view('tester', compact('questions'));
+// });
 
 
-})->name('test.latex');
+
+// Route::get('/tester_add', function () {
+//     return view('tester_quill');
+// });
+
+// Route::post('/test_add', function (Request $request) {
+
+//     return response()->json($request);
+
+
+// })->name('test.latex');

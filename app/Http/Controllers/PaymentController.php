@@ -12,28 +12,70 @@ class PaymentController extends Controller
     {
         $apiRoutes = new ApiRoutes();
         $url = $apiRoutes->payments(); // API endpoint for fetching payments
-    
+
         $token = (string) session(env('API_TOKEN_KEY'));
-        $response = Http::withToken($token)->post($url);
-    
+        $response = Http::withToken($token)->get($url);
+
         $payments = []; // Default empty array in case of failure
-    
+
         if ($response->successful()) {
             $payments = $response->json()['data'] ?? []; // Extract data if available
         } else {
             // Log error for debugging
             \Log::error('Failed to fetch payments', ['response' => $response->body()]);
         }
-    
+
         return view('dashboard.payments', compact('payments'));
     }
-    
 
-    public function admin(){
+
+
+
+
+    public function show($id)
+    {
+        $apiRoutes = new ApiRoutes();
+        $url = $apiRoutes->singlePayment($id); // API endpoint for fetching specific payment
+
+        $token = (string) session(env('API_TOKEN_KEY'));
+        $response = Http::withToken($token)->get($url);
+
+        $payment = null;
+
+        if ($response->successful()) {
+            $payment = $response->json()['data'] ?? []; // Extract data if available
+        } else {
+            // Log error for debugging
+            \Log::error('Failed to fetch payments', ['response' => $response->body()]);
+        }
+
+        $showLeft = null;
+        if ($payment['status'] == 'success') {
+            if ($payment['subscription'] != null) {
+                $showLeft = 'subscription';
+            }
+
+            if ($payment['exam_history'] != null) {
+                $showLeft = 'payperexam';
+            }
+        }
+
+        return view('dashboard.payments-details', compact('payment','showLeft'));
+    }
+
+
+
+
+
+
+
+    public function admin()
+    {
         return view('admin.payments');
     }
 
-    public function subscription(){
+    public function subscription()
+    {
         return view('dashboard.subscription');
     }
 }
