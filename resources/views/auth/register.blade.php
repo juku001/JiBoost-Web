@@ -54,7 +54,7 @@
         <div class="mouseCursor cursor-inner"></div>
     </div>
     <form action="{{ route('auth.register.type') }}" method="GET">
-        @csrf
+        {{-- @csrf --}}
         <section id="initial-section" class="d-flex align-items-center justify-content-center">
             <div class="container">
                 <div class="row align-items-center justify-content-center">

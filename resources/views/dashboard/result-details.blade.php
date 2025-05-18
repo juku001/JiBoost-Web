@@ -10,11 +10,13 @@
     @php
         use App\Helpers\CustomFunctions;
         $isSubmitted = $exam['end_type'] == 'submitted';
+        $data = session(env('USER_INFO_KEY'));
+        $name = $dat['name'];
     @endphp
     <div class="content">
         <div class="text-center">
             <h3>Exam Results</h3>
-            <h5 class="text-body-tertiary my-3">{{ session(env('USER_INFO_KEY'))['name'] }}</h5>
+            <h5 class="text-body-tertiary my-3">{{ $name }}</h5>
         </div>
         <div class="col-12 w-100">
             <div class="card">

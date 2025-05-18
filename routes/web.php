@@ -30,9 +30,10 @@ Route::middleware(['guest.api'])->group(function () {
     Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
     Route::post('/login', [AuthController::class, 'create'])->name('login');
     Route::get('/register/start', [RegistrationController::class, 'type'])->name('auth.register.type');
+    Route::post('/register/start', [RegistrationController::class, 'store'])->name('auth.register.signup');
     Route::post('/check/email', [RegistrationController::class, 'validateEmail'])->name('auth.register.validate.email');
     Route::post('/check/mobile', [RegistrationController::class, 'validateMobile'])->name('auth.register.validate.mobile');
-    Route::post('/signup/start', [RegistrationController::class, 'store'])->name('signup');
+    
 
     //new here
     Route::get('forgot_password', [AuthController::class, 'forgot'])->name('password.forgot');

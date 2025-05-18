@@ -65,6 +65,19 @@ class ApiRoutes
     }
 
 
+    public static function verifyEmail()
+    {
+        return self::apiUrl() . 'verify_email';
+    }
+
+
+
+    public static function verifyMobile()
+    {
+        return self::apiUrl() . 'verify_mobile';
+    }
+
+
     public static function resetPassword()
     {
         return self::apiUrl() . 'reset_password';

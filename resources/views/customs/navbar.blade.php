@@ -51,7 +51,7 @@
                                     </a>
 
                                 </div>
-                                <h6 class="mt-2 text-body-emphasis">{{ session(env('USER_INFO_KEY'))['name'] }}</h6>
+                                <h6 class="mt-2 text-body-emphasis">{{ session(env('USER_INFO_KEY'))['name'] ?? '' }}</h6>
                             </div>
                         </div>
                         <div class="overflow-auto scrollbar" style="height: 10rem;">
