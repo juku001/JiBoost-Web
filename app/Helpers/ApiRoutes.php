@@ -48,6 +48,11 @@ class ApiRoutes
         return self::apiUrl() . 'register';
     }
 
+    public static function updatePassword()
+    {
+        return self::apiUrl() . 'update_password';
+    }
+
 
     public static function forgotPassword()
     {
@@ -118,9 +123,25 @@ class ApiRoutes
         return self::apiUrl() . 'results';
     }
 
+    public static function postResult(): string
+    {
+        return self::apiUrl() . 'result';
+    }
+
+
+    public static function examResultsById($id): string
+    {
+        return self::apiUrl() . 'results/' . $id;
+    }
+
     /**
      * Payment Routes
      */
+
+    public static function pay(): string
+    {
+        return self::apiUrl() . 'pay';
+    }
     public static function payments(): string
     {
         return self::apiUrl() . 'payments';
@@ -168,6 +189,11 @@ class ApiRoutes
         return self::apiUrl() . 'series/edulevel/' . $id;
     }
 
+
+    public function getAllSeries()
+    {
+        return self::apiUrl() . 'series';
+    }
 
     public function getSeries($id)
     {
@@ -223,5 +249,27 @@ class ApiRoutes
     public function paymentStatus()
     {
         return self::apiUrl() . 'payment_status';
+    }
+
+
+    static function getFaqs()
+    {
+        return self::apiUrl() . 'faqs';
+    }
+
+
+    static function singleFaq()
+    {
+        return self::apiUrl() . 'faq';
+    }
+
+    static function updateFaq($id)
+    {
+        return self::apiUrl() . 'faq/' . $id;
+    }
+
+    static function displayPhoto()
+    {
+        return self::apiUrl() . 'display/photo';
     }
 }

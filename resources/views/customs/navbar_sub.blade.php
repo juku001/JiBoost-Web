@@ -7,17 +7,17 @@
                     <span>Back</span>
                 </span>
             </a>
-            
-            
-            <a class="navbar-brand me-1 me-sm-3" href="../index.html">
+
+
+
+            <div class="d-flex align-items-center">
                 <div class="d-flex align-items-center">
-                    <div class="d-flex align-items-center">
-                        <h5 class="logo-text ms-2 jb-heading">JiBoost</h5>
-                    </div>
+                    @yield('sub_title')
                 </div>
-            </a>
+            </div>
+
         </div>
 
-  
+
     </div>
 </nav>

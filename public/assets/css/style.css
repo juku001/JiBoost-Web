@@ -8,7 +8,7 @@
     position: relative;
     overflow: hidden;
     border-radius: 8px;
-    height: 20vh;
+    height: 15vh;
     /* 20% of the viewport height */
     min-height: 100px;
     /* Ensure it doesn’t shrink too much */
@@ -29,30 +29,53 @@
 .scrollable-row {
     display: flex;
     flex-wrap: nowrap;
-    /* Ensure items stay in a single row */
-    overflow-x: scroll;
-    /* Enable horizontal scrolling */
+    overflow-x: auto;
+    gap: 16px;
     padding-bottom: 15px;
-    /* Optional, just for better scroll visibility */
 }
 
-.scrollable-row .col-6 {
+/* Scroll items should not shrink or wrap */
+.scroll-item {
     flex: 0 0 auto;
-    /* Prevent items from resizing */
-    margin-right: 15px;
-    /* Optional, for spacing between items */
+    min-width: 220px;
 }
 
-/* Hide scrollbar */
-.scrollable-row::-webkit-scrollbar {
-    display: none;
+/* Hide scrollbar on all mobile browsers */
+@media (max-width: 768px) {
+    .scrollable-row {
+        scrollbar-width: none;
+        /* Firefox */
+        -ms-overflow-style: none;
+        /* IE 10+ */
+    }
+
+    .scrollable-row::-webkit-scrollbar {
+        display: none;
+        /* Chrome, Safari, Edge */
+    }
 }
 
-/* For Firefox */
-.scrollable-row {
-    scrollbar-width: none;
-    /* Firefox */
+/* Optional: Show slim scrollbar on desktop */
+@media (min-width: 769px) {
+    .scrollable-row {
+        scrollbar-width: thin;
+        /* Firefox */
+    }
+
+    .scrollable-row::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .scrollable-row::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 4px;
+    }
+
+    .scrollable-row::-webkit-scrollbar-track {
+        background: transparent;
+    }
 }
+
 
 
 
@@ -193,13 +216,148 @@
 }
 
 
-.back-button{
+.back-button {
     color: var(--phoenix-emphasis-color);
     font-weight: 900;
 }
 
 
-.result-item-danger{
-    border-left: solid #fa3b1d;
+.result-item {
+    border-left: 4px solid;
     padding-left: 5px;
+}
+
+.result-item.danger {
+    border-color: #fa3b1d;
+}
+
+.result-item.primary {
+    border-color: #00394f;
+}
+
+
+
+.btn-jb-primary {
+    margin-top: 15px;
+    /* background-color: #00394F; */
+    background-color: var(--jb-heading-color);
+    /* color: white; */
+    color: var(--phoenix-body-bg);
+}
+
+
+
+
+@media (max-width: 576px) {
+    .responsive-text {
+        font-size: 0.75rem;
+        /* Smaller text on mobile */
+    }
+}
+
+
+
+/* series css starts here */
+.series-item {
+    width: 100%;
+    /* ✅ Ensures it fills the col-6 */
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 180px;
+    position: relative;
+    transition: box-shadow 0.3s ease;
+}
+
+.series-item:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+.series-body {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.trial-text {
+    font-weight: bold;
+    font-size: 20px;
+    /* color: #333; */
+}
+
+.lock-icon {
+    font-size: 40px;
+    color: #999;
+}
+
+.series-footer {
+    background-color: var(--jb-heading-color);
+    color: var(--phoenix-body-bg);
+    text-align: center;
+    padding: 10px;
+    font-weight: 500;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+
+.series-icon {
+    width: 5vw;
+    height: 5vw;
+    color: var(--jb-heading-color);
+}
+
+
+.btn-exam {
+    padding: 20px 8px;
+    border-radius: 20px;
+}
+
+
+.btn-exam.cancel {
+    background-color: rgba(170, 12, 28, 255);
+    color: white;
+}
+
+.btn-exam.submit {
+    background-color: #00394F;
+    color: white;
+}
+
+
+.display-photo {
+    width: 250px;
+    height: 250px;
+    border: 1px solid var(--jb-heading-color);
+    border-radius: 50%;
+}
+
+
+.result-item-dash {
+    border: 0.1px solid var(--jb-heading-color);
+    min-height: 180px;
+    border-radius: 20px;
+}
+
+
+.stars {
+    color:var(--jb-heading-color);
+}
+
+@media (max-width: 576px) {
+    .series-icon {
+        width: 10vw;
+        height: 10vw;
+    }
+
+    .result-item-dash {
+        min-height: 100px;
+    }
 }

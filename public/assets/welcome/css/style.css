@@ -13136,3 +13136,32 @@ input[type="radio"]:checked+.jb-radio::before {
   background-color: white;
 }
 
+.custom-heading {
+  color: #00394f;
+  font-size: 2.8rem;
+}
+
+.custom-subtitle {
+  font-size: 1.4rem;
+}
+
+@media (max-width: 576px) {
+  .custom-heading {
+    font-size: 1.2rem;
+  }
+
+
+  .custom-subtitle {
+    font-size: 0.85rem;
+  }
+}
+
+
+
+.btn-jb-danger {
+  margin-top: 15px;
+  padding: 8px 25px;
+  /* width: 180px; */
+  background-color: #ff4f58;
+  color: white;
+}

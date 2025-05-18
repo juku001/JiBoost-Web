@@ -41,11 +41,11 @@
                         </div>
                         <div class="text-center">
                             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-2">
-                                <p class="mb-0">Not Registered Yet? <a href="{{ route('auth.register') }}">Click here</a>
+                                <p class="mb-0">Not Registered Yet? <a class="text-primary fw-semibold" href="{{ route('auth.register') }}">Click here</a>
                                 </p>
-                                <p class="mb-0"><a href="{{ route('password.forgot') }}">Forgot Password</a></p>
+                                <p class="my-1"><a href="{{ route('password.forgot') }}">Forgot Password</a></p>
                             </div>
-                            <p class="mt-2"><a href="{{ url('/?reset_welcome=1') }}">Back to Welcome Page</a></p>
+                            <p class="mt-2"><a class="text-primary fw-semibold" href="{{ url('/?reset_welcome=1') }}">Back to Welcome Page</a></p>
                         </div>
                     </form>
                 </div>

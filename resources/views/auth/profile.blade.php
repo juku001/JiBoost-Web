@@ -1,5 +1,7 @@
 @extends('layouts.sub_main')
-
+@section('sub_title')
+    <h5 class="logo-text ms-2 jb-heading" style="font-size: medium">JiBoost</h5>
+@endsection
 @section('content')
     <div class="content">
 
@@ -12,25 +14,45 @@
             <div class="col-12">
                 <div class="card h-100">
                     <div class="card-body">
-                        <div class="row h-100 py-5">
-                            <h4>Profile Information</h4>
-                            <p>Update your account profile information and email address</p>
-                            <div class="form-group mt-3">
-                                <label for="name">Name</label>
-                                <input type="text" class="form-control" placeholder="Enter your name">
+                        <form action="{{ route('profile.update') }}" method="POST">
+                            @csrf
+                            <div class="row h-100 py-5">
+                                <h4 class="small">Profile Information</h4>
+                                <p class="small">Update your account profile information and email address</p>
+                                <div class="form-group mt-3">
+                                    <label class="small" for="name">Name</label>
+                                    <input type="text" class="form-control" name="name" placeholder="Enter your name"
+                                        value="{{ $user['name'] ?? '' }}" required>
+                                </div>
+                                <div class="form-group mt-3">
+                                    <label class="small" for="mobile">Mobile Number</label>
+                                    <input type="text" class="form-control" name="mobile"
+                                        placeholder="Enter your mobile number" value="{{ $user['mobile'] ?? '' }}"
+                                        maxlength="12" required>
+                                    @error('mobile')
+                                        <span class="small text-danger">{{ $errors->first('mobile') }}</span>
+                                    @enderror
+                                </div>
+                                <div class="form-group mt-3">
+                                    <label class="small" for="education">Education Level</label>
+                                    <select name="level" id="" class="form-control" required>
+                                        <option value="">
+                                            Select Education level</option>
+                                        @foreach ($levels as $level)
+                                            @if (isset($user['level_id']))
+                                                <option {{ $user['level_id'] == $level['id'] ? 'selected' : '' }}
+                                                    value="{{ $level['id'] }}">{{ $level['level'] }}</option>
+                                            @else
+                                                <option value="{{ $level['id'] }}">{{ $level['level'] }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div>
+                                    <button class="btn btn-jb-primary">Save</button>
+                                </div>
                             </div>
-                            <div class="form-group mt-3">
-                                <label for="mobile">Mobile Number</label>
-                                <input type="text" class="form-control" placeholder="Enter your mobile number">
-                            </div>
-                            <div class="form-group mt-3">
-                                <label for="education">Education Level</label>
-                                <select name="education" id="" class="form-control">
-                                    <option value="">select your education level</option>
-                                    <option value="">Standard Four</option>
-                                </select>
-                            </div>
-                        </div>
+                        </form>
                     </div>
 
                 </div>
@@ -38,10 +60,32 @@
             <div class="col-12">
                 <div class="card h-100">
                     <div class="card-body">
-                        <div class="row h-100">
-                            <h4>Profile Information</h4>
-                            <p>Update your account profile information and email address</p>
-                        </div>
+                        <form action="{{ route('profile.update.password') }}" method="POST">
+                            @csrf
+                            <div class="row h-100">
+                                <h4 class="small">Update Password</h4>
+                                <p class="small">Ensure your account is using a long, random password to stay secure</p>
+                                <div class="form-group mt-3">
+                                    <label class="small" for="old_password">Current Password</label>
+                                    <input type="password" name="old_password" class="form-control">
+                                </div>
+                                <div class="form-group mt-3">
+                                    <label class="small" for="current_password">New Password</label>
+                                    <input type="password" name="current_password" class="form-control">
+                                </div>
+                                <div class="form-group mt-3">
+                                    <label class="small" for="current_password_confirmation">Confirm Password</label>
+                                    <input type="password" name="current_password_confirmation" class="form-control">
+                                    @error('current_password')
+                                        <span class="small text-danger">{{ $errors->first('current_password') }}</span>
+                                    @enderror
+                                </div>
+                                <div>
+                                    <button class="btn btn-jb-primary">Save</button>
+                                </div>
+                            </div>
+
+                        </form>
                     </div>
 
                 </div>
@@ -52,14 +96,14 @@
                 <div class="card h-100">
                     <div class="card-body">
                         <div class="row h-100">
-                            <h4>Delete Account</h4>
-                            <p>
+                            <h4 class="small">Delete Account</h4>
+                            <p class="small">
                                 Once your account is deleted, all of its resources and data will be permanently deleted.
                                 Before deleting your account, please download any data or information that you wish to
                                 retain.
                             </p>
 
-                            <div class="col-3">
+                            <div class="col-12">
                                 <!-- Trigger Modal -->
                                 <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
                                     Delete Account

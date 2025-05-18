@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Helpers\FlasherHelper;
+use Carbon\Carbon;
+use Exception;
 use Http;
 use App\Helpers\ApiRoutes;
 use Illuminate\Http\Request;
@@ -11,27 +14,62 @@ class ExaminationController extends Controller
     {
 
 
+
         $apiRoutes = new ApiRoutes();
         $url = $apiRoutes->getSeriesBySubject($id);
+        $subscriptionUrl = $apiRoutes->subscription();
+
         $token = (string) session(env('API_TOKEN_KEY'));
 
         $response = Http::withToken($token)->get($url);
         $levelSubject = $response->json()['data'];
 
-
+        // return response()->json($levelSubject);
+        $subResponse = Http::withToken($token)->get($subscriptionUrl);
+        $subInfo = null;
+        if ($subResponse->successful()) {
+            $subData = $subResponse->json();
+            $subInfo = $subData['data'];
+        }
+        // dd($subInfo);
         return view('dashboard.examination-series', [
             'levelSubject' => $levelSubject,
             'levelSubjectId' => $id,
+            'subInfo' => $subInfo,
             'ApiRoutes' => $apiRoutes, // Pass the instance to the view
         ]);
     }
 
 
+    public function deny()
+    {
+        $flasher = new FlasherHelper();
+        $flasher->error("You can not view this series. Please, subscribe first.");
+        return redirect()->back();
+    }
+
+
+
     public function examInfo($sub, $id)
     {
 
+        $apiRoutes = new ApiRoutes();
+        $url = $apiRoutes->getSeriesBySubject($sub);
+        $token = (string) session(env('API_TOKEN_KEY'));
 
-        return view('dashboard.examination-show', compact('sub', 'id'));
+        $response = Http::withToken($token)->get($url);
+        $levelSubject = $response->json()['data'];
+
+        $qnUrl = $apiRoutes->questions($id);
+        $qnREsponse = Http::withToken($token)->get($qnUrl);
+        $series = $qnREsponse->json();
+
+        return view('dashboard.examination-show', compact(
+            'sub',
+            'id',
+            'levelSubject',
+            'series'
+        ));
     }
 
 
@@ -49,48 +87,56 @@ class ExaminationController extends Controller
     }
 
 
+
     public function submitExam(Request $request, $sub, $series)
     {
-        $apiRoutes = new ApiRoutes();
-        $url = $apiRoutes->questions($series);
-        $token = (string) session(env('API_TOKEN_KEY'));
-    
-        // Fetch all questions from API
-        $response = Http::withToken($token)->get($url);
-        $allQuestions = $response->json()['data']; 
-    
-        // Get user's answers
-        $answers = $request->input('answers'); // Example: ["1" => "option_c", "2" => "option_d"]
-    
-        // Initialize counters
-        $questionsDone = count($answers); // Number of answered questions
-        $questionsChecked = 0; // Correctly answered questions
-    
-        // Loop through each question and check correctness
-        foreach ($allQuestions as $question) {
-            $questionId = $question['id'];
-    
-            // Check if user answered this question
-            if (isset($answers[$questionId])) {
-                if ($answers[$questionId] === $question['correct_option']) {
-                    $questionsChecked++; // Count correct answers
-                }
-            }
-        }
-    
-        // Prepare the data
+
+
+
         $data = [
-            "series_id" => $series,
-            "questions_done" => $questionsDone,
-            "start_time" => now()->subMinutes(10)->toDateTimeString(), // Assume exam started 10 mins ago
-            "end_time" => now()->toDateTimeString(), // Current time as end time
-            "questions_checked" => $questionsChecked,
-            "questions_skipped" => 0, // Always zero
-            "end_type" => "submitted"
+            'series_id' => (int) $request->series_id,
+            'start_time' => Carbon::parse($request->start_time)->format('Y-m-d H:i'),
+            'end_time' => Carbon::parse($request->end_time)->format('Y-m-d H:i'),
+            'end_type' => $request->end_type
         ];
-    
-        return response()->json($data); // Example response (replace with your actual logic)
+
+
+        if ($request->end_type == 'submitted') {
+            $questionData = json_decode($request->questions_data);
+            $data['questions_data'] = $questionData;
+        }
+        // return response()->json($data);
+
+        $token = (string) session(env('API_TOKEN_KEY'));
+        $url = ApiRoutes::postResult();
+        try {
+            $response = Http::withToken($token)->post($url, $data);
+            if ($response->successful()) {
+                $message = '';
+                if ($request->end_type == 'submitted') {
+                    $message = 'Exam submitted successful';
+                } else {
+                    $message = 'Exam Cancelled successful';
+                }
+
+                FlasherHelper::success($message);
+                return redirect()->route('examination.series.show', [
+                    'sub' => $sub,
+                    'series' => $series
+                ]);
+            } else {
+                FlasherHelper::error($response->json()['message']);
+                // return response()->json($response);
+                return redirect()->back();
+            }
+        } catch (Exception $e) {
+
+            // dd($e);
+            FlasherHelper::error('Something went wrong. Error' . $e->getMessage());
+            return redirect()->back();
+        }
+
     }
-    
+
 
 }

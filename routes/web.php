@@ -2,14 +2,18 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExamController;
 use App\Http\Controllers\ExaminationController;
 use App\Http\Controllers\ExamResultController;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\SpecialDocumentsController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UsersController;
@@ -19,14 +23,16 @@ use Illuminate\Http\Request;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome')->middleware('isFirstUser');
 Route::get('privacy-policy', [SpecialDocumentsController::class, 'privacy']);
-Route::get('app', [SpecialDocumentsController::class, 'app']);
+Route::get('app', [SpecialDocumentsController::class, 'app'])->name('playstore');
 
 Route::middleware(['guest.api'])->group(function () {
     Route::get('/login', [AuthController::class, 'index'])->name('auth.login');
     Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
     Route::post('/login', [AuthController::class, 'create'])->name('login');
-    Route::get('/register/start', [AuthController::class, 'type'])->name('auth.register.type');
-    Route::post('/signup/start', [AuthController::class, 'store'])->name('signup');
+    Route::get('/register/start', [RegistrationController::class, 'type'])->name('auth.register.type');
+    Route::post('/check/email', [RegistrationController::class, 'validateEmail'])->name('auth.register.validate.email');
+    Route::post('/check/mobile', [RegistrationController::class, 'validateMobile'])->name('auth.register.validate.mobile');
+    Route::post('/signup/start', [RegistrationController::class, 'store'])->name('signup');
 
     //new here
     Route::get('forgot_password', [AuthController::class, 'forgot'])->name('password.forgot');
@@ -42,9 +48,23 @@ Route::middleware(['api.auth'])->group(function () {
 
     Route::prefix('/profile')->group(function () {
         Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
+        Route::post('/', [ProfileController::class, 'update'])->name('profile.update');
+        Route::post('update_password', [ProfileController::class, 'updatePassword'])->name('profile.update.password');
         Route::get('/delete', [AuthController::class, 'destroy'])->name('profile.delete'); //not yet done.
-
+        Route::get('display-photo', [ProfileController::class, 'display'])->name('profile.display.photo');
+        Route::post('display-photo', [ProfileController::class, 'upload'])->name('profile.display.photo.upload');
+        Route::delete('display-photo', [ProfileController::class, 'destroy'])->name('profile.display.photo.delete');
     });
+
+    Route::prefix('notifications')->group(function () {
+        Route::get('/', [NotificationController::class, 'index'])->name('notification.index');
+    });
+    Route::prefix('community')->group(function () {
+        Route::get('/', [CommunityController::class, 'index'])->name('community.index');
+    });
+
+    Route::get('/help-center', [FaqController::class, 'help'])->name('helpcenter.index');
+
     Route::middleware(['isNotAdmin'])->group(function () {
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.home');
@@ -53,12 +73,16 @@ Route::middleware(['api.auth'])->group(function () {
         Route::get('/payments/{id}', [PaymentController::class, 'show'])->name('dashboard.payments.show');
 
         Route::get('/results', [ExamResultController::class, 'index'])->name('dashboard.results');
+        Route::get('/results/{id}', [ExamResultController::class, 'show'])->name('dashboard.results.show');
+
         Route::get('/subscribe', [SubscriptionController::class, 'index'])->name('dashboard.subscription');
         Route::post('/subscribe', [SubscriptionController::class, 'store'])->name('dashboard.subscribe');
-        Route::get('/confirmation', [SubscriptionController::class, 'wait'])->name('dashboard.subscription.wait');
+        Route::get('/confirmation/{ref}', [SubscriptionController::class, 'wait'])->name('dashboard.subscription.wait');
         Route::prefix('exams')->group(function () {
             Route::get('/', [ExamController::class, 'index'])->name('dashboard.exams');
             Route::get('/{id}', [ExaminationController::class, 'series'])->name('examination.series');
+            Route::get('/{id}/deny', [ExaminationController::class, 'deny'])->name('examination.series.deny');
+            Route::get('/{id}/deduct', [ExaminationController::class, 'deduct'])->name('examination.series.deduct');
             Route::get('/{sub}/{series}', [ExaminationController::class, 'examInfo'])->name('examination.series.show');
             Route::get('/{sub}/{series}/start', [ExaminationController::class, 'startExam'])->name('examination.series.start');
             Route::post('/{sub}/{series}/submit', [ExaminationController::class, 'submitExam'])->name('examination.series.submit');

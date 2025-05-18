@@ -6,16 +6,18 @@ class FlasherHelper
 
 
 
-    public function success($message)
+    public static function success($message)
     {
         flash()->success($message, ['position' => 'bottom-right']);
     }
 
 
-    public function error($message)
+    public static function error($message)
     {
         flash()->error($message, ['position' => 'bottom-right']);
     }
+
+    
 
 
 

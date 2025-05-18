@@ -5,7 +5,7 @@
                 data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse"
                 aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span
                         class="toggle-line"></span></span></button>
-            <a class="navbar-brand me-1 me-sm-3" href="../index.html">
+            <a class="navbar-brand me-1 me-sm-3" href="{{ route('dashboard.home') }}">
                 <div class="d-flex align-items-center">
                     <div class="d-flex align-items-center"><img src="{{ asset('assets/img/logo.png') }}" alt="JiBoost"
                             width="27" />
@@ -43,9 +43,13 @@
                         <div class="card-body p-0">
                             <div class="text-center pt-4 pb-3">
                                 <div class="avatar avatar-xl ">
-                                    <img class="rounded-circle "
-                                        src="{{ session(env('USER_INFO_KEY'))['profile_pic'] ?? asset('assets/img/logo.png') }}"
-                                        alt="Profile Picture" />
+
+                                    <a href="{{ route('profile.display.photo') }}">
+                                        <img class="rounded-circle "
+                                            src="{{ session(env('USER_INFO_KEY'))['profile_pic'] ?? asset('assets/img/logo.png') }}"
+                                            alt="Profile Picture" />
+                                    </a>
+
                                 </div>
                                 <h6 class="mt-2 text-body-emphasis">{{ session(env('USER_INFO_KEY'))['name'] }}</h6>
                             </div>
@@ -55,17 +59,19 @@
                                 <li class="nav-item"><a class="nav-link px-3 d-block"
                                         href="{{ route('profile.index') }}"> <span class="me-2 text-body align-bottom"
                                             data-feather="user"></span><span>Profile</span></a></li>
-                                <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"><span
+                                <li class="nav-item"><a class="nav-link px-3 d-block"
+                                        href="{{ route('notification.index') }}"><span
                                             class="me-2 text-body align-bottom"
-                                            data-feather="pie-chart"></span>Dashboard</a></li>
-                                <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"> <span
-                                            class="me-2 text-body align-bottom" data-feather="lock"></span>Posts &amp;
-                                        Activity</a></li>
+                                            data-feather="pie-chart"></span>Notifications</a></li>
+                                <li class="nav-item"><a class="nav-link px-3 d-block"
+                                        href="{{ route('community.index') }}"> <span class="me-2 text-body align-bottom"
+                                            data-feather="lock"></span>Community</a></li>
                                 <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"> <span
                                             class="me-2 text-body align-bottom" data-feather="settings"></span>Settings
                                         &amp; Privacy </a>
                                 </li>
-                                <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"> <span
+                                <li class="nav-item"><a class="nav-link px-3 d-block"
+                                        href="{{ route('helpcenter.index') }}"> <span
                                             class="me-2 text-body align-bottom" data-feather="help-circle"></span>Help
                                         Center</a></li>
                                 <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"> <span

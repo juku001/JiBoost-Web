@@ -1,5 +1,8 @@
 @extends('layouts.main')
 @section('title', 'Examination')
+@php
+    use App\Helpers\CustomFunctions;
+@endphp
 @push('plugin-styles')
 @endpush
 @section('sidebar')
@@ -32,41 +35,77 @@
 @endsection
 @section('content')
     <div class="content">
-        <div class="mb-3">
-            <h3>{{ $levelSubject['level_name'] }}</h3>
-            <h4>{{ $levelSubject['subject_name'] }}</h4>
-            <p class="text-body-tertiary fw-semibold mb-4">Select a series to start examination</p>
-        </div>
-
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
-                <div class="row" style="display: flex;">
-                    @foreach ($levelSubject['series'] as $series)
-                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-6 d-flex">
-                            @if ($series['isTrial'])
-                                <!-- Check if isTrial is true -->
-                                <div class="text-center d-flex flex-column justify-content-center align-items-center p-5 w-100"
-                                    style="background-color: white; flex-grow: 1; border-radius: 12px; min-height: 150px;">
-                                    <!-- Lock Icon and Title for Trial -->
-                                    <i class="fa fa-lock" style="font-size: 50px; color: rgb(2, 102, 141);"></i>
-                                    <p class="title mt-2" style="color: rgb(2, 102, 141);">{{ $series['title'] }}</p>
-                                </div>
-                            @else
-                                <a href="{{ route('examination.series.show', ['sub' => $levelSubjectId, 'series' => $series['id']]) }}"
-                                    style="text-decoration: none">
-                                    <div class="text-center d-flex flex-column justify-content-center align-items-center p-5 w-100"
-                                        style="background-color: white; flex-grow: 1; border-radius: 12px; min-height: 150px;">
-                                        <!-- Title for Non-Trial -->
-                                        <span class="title fw-bolder" style="color: #00394F;">{{ $series['title'] }}</span>
-                                    </div>
-                                </a>
-                            @endif
+                <div class="col-12 text-center py-6 bg-secondary-subtle rounded">
+                    <h4 class="jb-heading">{{ $levelSubject['level_name'] }}</h4>
+                    <h4 class="responsive-text">{{ $levelSubject['subject_name'] }}</h4>
+                    <div class="mt-3 text-center d-flex justify-content-between">
+                        <div class="card mx-1 flex-fill d-flex align-items-center justify-content-center">
+                            <div class="py-4 text-center">
+                                <h3>0/1</h3>
+                                <p class="responsive-text">Completed series</p>
+                            </div>
                         </div>
-                    @endforeach
+
+                        <div class="card mx-1 flex-fill d-flex align-items-center justify-content-center">
+                            <div class="py-4 text-center">
+                                <h3>0.0 %</h3>
+                                <h5 class="responsive-text">N/A</h5>
+                                <p class="responsive-text">Best Series Score</p>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
-
         </div>
+        <div class="container-fluid px-0">
+            <div class="row g-0 mt-5">
+                @foreach ($levelSubject['series'] as $series)
+                    <div class="col-6 col-md-4 p-2">
+                        @php
+                            $isAllowed = CustomFunctions::allowedToViewSeries(
+                                $series,
+                                $subInfo,
+                                $levelSubject['level_id'],
+                            );
+                            $route = route('examination.series.show', [
+                                'sub' => $levelSubjectId,
+                                'series' => $series['id'],
+                            ]);
+                            if ($isAllowed == false) {
+                                $route = route('examination.series.deny', [
+                                    'id' => $levelSubjectId,
+                                ]);
+                            }
+                        @endphp
+                        <a class="text-decoration-none" href="{{ $route }}">
+                            <div class="series-item">
+                                <div class="series-body">
+                                    @if ($series['isTrial'])
+                                        <span class="trial-text jb-heading">Trial</span>
+                                    @else
+                                        @if ($isAllowed == false)
+                                            <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                    class="bi bi-lock-fill series-icon" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd"
+                                                        d="M8 0a4 4 0 0 1 4 4v2.05a2.5 2.5 0 0 1 2 2.45v5a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 2 13.5v-5a2.5 2.5 0 0 1 2-2.45V4a4 4 0 0 1 4-4m0 1a3 3 0 0 0-3 3v2h6V4a3 3 0 0 0-3-3" />
+                                                </svg>
+                                            </span>
+                                        @endif
+                                    @endif
+                                </div>
+                                <div class="series-footer">
+                                    <span class="responsive-text">{{ $series['title'] }}</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
     </div>
 @endsection

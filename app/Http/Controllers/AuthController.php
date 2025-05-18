@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Support\Facades\Http;
 use \Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Session;
 
 class AuthController extends Controller
 {
@@ -21,44 +22,8 @@ class AuthController extends Controller
 
     public function register()
     {
+        Session::remove(env('USER_REGISTRATION_INFO'));
         return view('auth.register');
-    }
-
-
-    public function type(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'user-type' => 'required|in:student,teacher,parent'
-        ]);
-
-
-        $flasher = new FlasherHelper();
-        if ($validator->fails()) {
-            foreach ($validator->errors()->all() as $key => $error) {
-                $flasher->error($error);
-            }
-        }
-
-
-        $url = ApiRoutes::educationLevels(); // Get the API URL
-        // Make the API request
-        $response = Http::get($url);
-
-        // Check if the request was successful
-        if ($response->successful()) {
-            $levels = $response->json(); // Extract data
-        } else {
-            $levels = []; // Default to an empty array if the request fails
-        }
-
-        $userType = $request->input('user-type');
-
-        if ($userType != 'student') {
-            $flasher->error("Only students can register for now.");
-            return redirect()->back();
-        }
-
-        return view('auth.signup', compact('userType', 'levels'));
     }
 
 
@@ -137,81 +102,7 @@ class AuthController extends Controller
     }
 
 
-    public function store(Request $request)
-    {
-        $flasher = new FlasherHelper();
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'mobile' => 'required|regex:/^255\d{9}$/',
-            'email' => 'required|email',
-            'sex' => 'required|in:male,female',
-            'region' => 'required',
-            'password' => 'required|confirmed',
-            'address' => 'required'
-        ]);
 
-
-
-        if ($validator->fails()) {
-            foreach ($validator->errors()->all() as $key => $value) {
-                $flasher->error($value);
-            }
-            return redirect()->back();
-        }
-
-
-
-        // Prepare API request
-        $url = ApiRoutes::register(); // Get register API endpoint
-        $data = [
-            "name" => $request->name,
-            "email" => $request->email,
-            "user_type" => $request->input('user-type'),
-            "password" => $request->password,
-            "mobile" => $request->mobile,
-            "sex" => $request->sex,
-            "date_of_birth" => $request->dob,
-            "country" => "Tanzania",
-            "region" => $request->region,
-            "address" => $request->address,
-            "school_name" => $request->school_name,
-            "school_location" => $request->school_location,
-            "level_of_education" => (int) $request->level_of_education,
-        ];
-
-        // return response()->json($data);
-
-        try {
-            // Send the request to the API
-            $response = Http::post($url, $data);
-
-            // Decode response
-            $result = $response->json();
-
-            // return response()->json($result);oo 
-            if ($response->successful() && isset($result['status']) && $result['status']) {
-                // Registration successful
-                $flasher->success('Registration successful! Please login to continue.');
-                // Redirect to login page or dashboard
-                return redirect()->route('login');
-            } else {
-                // Registration failed
-                $errorMessage = $result['message'] ?? 'Registration failed. Please try again.';
-                if (filled($result['data'])) {
-                    foreach ($result['data'] as $key => $value) {
-                        $flasher->error($value);
-                    }
-                } else {
-                    $flasher->error($errorMessage);
-                }
-                return back()->withInput();
-            }
-        } catch (\Exception $e) {
-            // Handle API errors
-            $flasher->error('Something went wrong. Please try again later.');
-            return back()->withInput();
-        }
-    }
 
 
     public function logout()
@@ -386,7 +277,7 @@ class AuthController extends Controller
             return redirect()->route('password.forgot')->with('error', 'You must verify your email first.');
         }
 
-         $email = session('email_submitted');
+        $email = session('email_submitted');
         return view('auth.reset_password');
     }
 

@@ -21,7 +21,7 @@
                                     data-fa-transform="shrink-2 up-8 right-6"></span></span>
                             <div class="ms-3">
                                 <h4 class="mb-0">{{ $dataCount['student'] }} Students</h4>
-                                <p class="text-body-secondary fs-9 mb-0">Awating processing</p>
+                                {{-- <p class="text-body-secondary fs-9 mb-0">Awating processing</p> --}}
                             </div>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                                     data-fa-transform="shrink-2 up-8 right-6"></span></span>
                             <div class="ms-3">
                                 <h4 class="mb-0">{{ $dataCount['parents'] }} Parents</h4>
-                                <p class="text-body-secondary fs-9 mb-0">On hold</p>
+                                {{-- <p class="text-body-secondary fs-9 mb-0">On hold</p> --}}
                             </div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                                     data-fa-transform="shrink-2 up-8 right-6"></span></span>
                             <div class="ms-3">
                                 <h4 class="mb-0">{{ $dataCount['teachers'] }} Teachers</h4>
-                                <p class="text-body-secondary fs-9 mb-0">Out of stock</p>
+                                {{-- <p class="text-body-secondary fs-9 mb-0">Out of stock</p> --}}
                             </div>
                         </div>
                     </div>
@@ -60,14 +60,7 @@
 
 
                 <div class="content">
-                    <nav class="mb-3" aria-label="breadcrumb">
-                        <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="#!">Page 1</a></li>
-                            <li class="breadcrumb-item"><a href="#!">Page 2</a></li>
-                            <li class="breadcrumb-item active">Default</li>
-                        </ol>
-                    </nav>
-                    <div class="mb-9">
+                    <div class="mb-5">
 
                         <div id="products"
                             data-list='{"valueNames":["customer","email","total-orders","total-spent","city","last-seen","last-order"],"page":10,"pagination":true}'>

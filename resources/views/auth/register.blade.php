@@ -49,57 +49,15 @@
             </div>
         </div>
     </div>
-    <!-- preloader end -->
-    <!-- mouse-cursor-start -->
     <div class="mouse-cursor-invisible">
         <div class="mouseCursor cursor-outer"></div>
         <div class="mouseCursor cursor-inner"></div>
     </div>
-    <!-- mouse-cursor-end -->
-
-    <!-- header begin -->
-    {{-- <div class="header header-style-1">
-        <div class="top-header">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-9 col-lg-9">
-                        <div class="top-left">
-                            <div class="d-sm-flex">
-                                <div class="header-txt pr-30"><a href="mail:thespidergraphics@gmail.com"><i
-                                            class="icofont-email"></i> thespidergraphics@gmail.com</a></div>
-                                <div class="header-txt px-30"><a href="tel:+255615331132"><i class="icofont-phone"></i>
-                                        +255 615 331 132</a></div>
-                                <div class="header-txt pl-30"><i class="icofont-google-map"></i> Makumbusho, Dar es
-                                    salaam. Tanzania</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3">
-                        <div class="top-right">
-                            <div class="d-flex justify-content-lg-end justify-content-center">
-                                <a href="#" class="header-right-txt"><i
-                                        class="icofont-facebook-messenger"></i></a>
-                                <a href="#" class="header-right-txt"><i class="icofont-twitter"></i></a>
-                                <a href="#" class="header-right-txt"><i class="icofont-instagram"></i></a>
-                                <a href="#" class="header-right-txt"><i class="icofont-youtube"></i></a>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div> --}}
-    <!-- header end -->
-    <!-- Form Structure -->
-    <form 
-        action="{{ route('auth.register.type') }}" method="GET">
+    <form action="{{ route('auth.register.type') }}" method="GET">
         @csrf
-        <!-- Initial Section -->
-        <section id="initial-section">
+        <section id="initial-section" class="d-flex align-items-center justify-content-center">
             <div class="container">
-                <div class="row">
+                <div class="row align-items-center justify-content-center">
                     <div class="col-xl-6 col-lg-6 col-md-6 col-12" id="signup-spacing">
                         <div class="banner-txt text-center">
                             <h3 class="banner-subtitle mt--9 mb-10">Create Account</h3>
@@ -111,12 +69,9 @@
                             </p>
                         </div>
                     </div>
-                    <!-- Content for Initial Section -->
                     <div class="col-xl-6 col-lg-6 col-md-6 col-12 text-center" id="signup-spacing">
                         <h5 class="fw-bold">Select User Type</h5>
                         <div class="mt-1 mb-1">
-                            {{-- <img id="user-image" src="{{ asset('assets/welcome/images/signup_student.webp') }}"
-                                alt="User Type" width="250"> --}}
                             <img id="user-image" src="{{ asset('assets/welcome/images/signup_student.webp') }}"
                                 alt="User Type" width="250">
                         </div>
@@ -144,140 +99,15 @@
                             <button class="btn btn-jb-primary">Continue</button>
                         </div>
                         <div class="mt-3 mb-30">
-                            <span>Already have an Account? <a href="{{ route('auth.login') }}">Click here</a></span>
+                            <span>Already have an Account? <a class="text-primary fw-semibold"
+                                    href="{{ route('auth.login') }}">Click here</a></span>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
-        <!-- Form Section (Initially Hidden) -->
-        {{-- <section id="form-section" style="display: none;">
-            <div class="container">
-                <div class="row"> --}}
-        {{-- <div class="col-12 text-center mt-3">
-                        <h2 class="section-title">Registration</h2>
-                        <h3 class="banner-paragraph">Fill the following form to register</h3>
-                    </div> --}}
-        {{-- <div class="text-center">
-                        <span class="signup-step active" id="signup-step-1">1</span>
-                        <span class="signup-step" id="signup-step-2">2</span>
-                        <span class="signup-step" id="signup-step-3">3</span>
-                    </div> --}}
-        {{-- <div class="form-content container-fluid"> --}}
-        <!-- Step 1 -->
-        {{-- <div id="step-1">
-                            <div class="row">
-                                <div class="form-group mt-20 col-xl-6 col-lg-6 col-md-6 col-12">
-                                    <label for="first-name">Full Name<span
-                                            class="text-danger fw-bold">*</span></label>
-                                    <input type="text" id="fullname" name="full_name" class="form-control"
-                                        required>
-                                </div>
-                                <div class="form-group col-xl-6 col-lg-6 col-md-6 col-12 mt-15">
-                                    <label for="sex">Sex<span class="text-danger fw-bold">*</span></label>
-                                    <select id="sex" name="sex" class="form-control" required>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="form-group mt-20 col-xl-6 col-lg-6 col-md-6 col-12">
-                                    <label for="email">Email<span class="text-danger fw-bold">*</span></label>
-                                    <input type="email" id="email" name="email" class="form-control"
-                                        required>
-                                </div>
-                                <div class="form-group col-xl-6 col-lg-6 col-md-6 col-12 mt-15">
-                                    <label for="phone">Phone<span class="text-danger fw-bold">*</span></label>
-                                    <input type="tel" id="phone" name="phone" class="form-control"
-                                        required>
-                                </div>
-                                <div class="form-group mt-20 col-xl-6 col-lg-6 col-md-6 col-12">
-                                    <label for="password">Password<span class="text-danger fw-bold">*</span></label>
-                                    <input type="password" id="password" name="password" class="form-control"
-                                        required>
-                                </div>
-                                <div class="mb-30 text-center">
-                                    <button id="back-btn" type="button" class="btn btn-danger mt-25">Back</button>
-                                    <button id="next-btn-step-1" type="button"
-                                        class="btn btn-jb-primary mt-25">Next</button>
-                                </div>
-                            </div>
-                        </div> --}}
-        <!-- Step 2 -->
-        {{-- <div id="step-2" style="display: none;">
-                            <div class="row">
 
-                                <div class="form-group col-xl-6 col-lg-6 col-md-6 col-12 mt-15">
-                                    <label for="dob">Date of Birth<span
-                                            class="text-danger fw-bold">*</span></label>
-                                    <input type="date" id="dob" name="dob" class="form-control"
-                                        required>
-                                </div>
-                                <div class="form-group col-xl-6 col-lg-6 col-md-6 col-12 mt-15">
-                                    <label for="address">Address<span class="text-danger fw-bold">*</span></label>
-                                    <input type="text" id="address" name="address" class="form-control"
-                                        required>
-                                </div>
-                                <div class="form-group col-xl-6 col-lg-6 col-md-6 col-12 mt-15">
-                                    <label for="region">Region<span class="text-danger fw-bold">*</span></label>
-                                    <select id="region" name="region" class="form-control" required>
-                                        <option value="">Select your Region</option>
-                                        <option value="Dar es Salaam">Dar es Salaam</option>
-                                        <option value="Dodoma">Dodoma</option>
-                                        <option value="Geita">Geita</option>
-                                        <option value="Iringa">Iringa</option>
-                                        <option value="Kagera">Kagera</option>
-                                        <option value="Kigoma">Kigoma</option>
-                                        <option value="Kilimanjaro">Kilimanjaro</option>
-                                        <option value="Lindi">Lindi</option>
-                                        <option value="Manyara">Manyara</option>
-                                        <option value="Mara">Mara</option>
-                                        <option value="Mbeya">Mbeya</option>
-                                        <option value="Morogoro">Morogoro</option>
-                                        <option value="Mtwara">Mtwara</option>
-                                        <option value="Mwanza">Mwanza</option>
-                                        <option value="Pwani">Pwani</option>
-                                        <option value="Rukwa">Rukwa</option>
-                                        <option value="Ruvuma">Ruvuma</option>
-                                        <option value="Shinyanga">Shinyanga</option>
-                                        <option value="Singida">Singida</option>
-                                        <option value="Tabora">Tabora</option>
-                                        <option value="Tanga">Tanga</option>
-                                        <option value="Zanzibar Urban/West">Zanzibar Urban/West</option>
-                                        <option value="Zanzibar North">Zanzibar North</option>
-                                        <option value="Zanzibar South">Zanzibar South</option>
-                                        <option value="Zanzibar Central/South">Zanzibar Central/South</option>
-                                    </select>
-                                </div>
-                                <div class="text-center mt-20 mb-40">
-                                    <button id="previous-btn-step-2" type="button"
-                                        class="btn btn-danger">Previous</button>
-                                    <button id="next-btn-step-2" type="button"
-                                        class="btn btn-jb-primary">Next</button>
-                                </div>
-                            </div>
-                        </div> --}}
-
-        <!-- Step 3 -->
-        {{-- <div id="step-3" style="display: none;">
-                            <div id="additional-fields"></div>
-                            <div class="mt-20 mb-40 text-center">
-                                <button id="previous-btn-step-3" type="button"
-                                    class="btn btn-danger">Previous</button>
-                                <button id="submit-btn" type="submit" class="btn btn-jb-primary">Submit</button>
-                            </div>
-                        </div> --}}
-        {{-- </div> --}}
-        {{-- </div>
-            </div>
-        </section> --}}
     </form>
-
-    {{-- //     <script> --}}
-    {{-- //  // const levels = @json($levels); --}}
-    {{-- //     </script> --}}
-
     <script src={{ asset('assets/welcome/js/jquery-3.6.0.min.js') }}></script>
     <script src={{ asset('assets/welcome/js/bootstrap.bundle.min.js') }}></script>
     <script src={{ asset('assets/welcome/js/jquery-ui.js') }}></script>

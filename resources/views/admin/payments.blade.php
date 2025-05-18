@@ -11,7 +11,7 @@
                 <h5 class="text-body-tertiary fw-semibold mb-4">Check your business growth in one place</h5>
             
 
-                <div class="content">
+                <div class="container">
                     <div class="mb-9">
                         
                         <div id="products"

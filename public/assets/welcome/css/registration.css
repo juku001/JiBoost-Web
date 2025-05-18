@@ -1,0 +1,36 @@
+body{
+    background-color: #f5f7fa;
+}
+
+.step-indicator {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.step-circle {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 1px solid #00394F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    color: #00394F;
+}
+
+.step-circle.active {
+    background-color: #00394F;
+    color: white;
+}
+
+
+@media (max-width: 576px) {
+    .step-circle {
+        width: 25px;
+        height: 25px;
+        font-size: 10px;
+    }
+}

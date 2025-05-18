@@ -25,6 +25,8 @@ class PaymentController extends Controller
             \Log::error('Failed to fetch payments', ['response' => $response->body()]);
         }
 
+
+
         return view('dashboard.payments', compact('payments'));
     }
 

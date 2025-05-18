@@ -580,7 +580,7 @@
                                 <img src="{{ asset('assets/welcome/images/appstore.png') }}" class="filter-shadow-3"
                                     alt="App Store">
                             </a>
-                            <a href="#" class="app-download-btn">
+                            <a href="{{ route('playstore') }}" class="app-download-btn" target="_blank">
                                 <img src="{{ asset('assets/welcome/images/playstore.png') }}" class="filter-shadow-2"
                                     alt="Play Store">
                             </a>

@@ -1,5 +1,10 @@
 @extends('layouts.sub_main')
 @section('title', 'Payments')
+
+@section('sub_title')
+    {{-- <h5 class="logo-text ms-2 jb-heading">JiBoost</h5> --}}
+        <h5 class="mx-4">Payment Details</h5>
+@endsection
 @section('content')
 
     @php

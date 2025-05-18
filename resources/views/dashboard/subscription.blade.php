@@ -56,6 +56,7 @@
                                         <option value="" selected disabled>Select Package</option>
                                         @foreach ($subscriptions as $subscription)
                                             <option value="{{ $subscription['id'] }}"
+                                                {{ old('subscription') == $subscription['id'] ? 'selected' : '' }}
                                                 data-name="{{ $subscription['name'] }}"
                                                 data-description="{{ $subscription['description'] }}"
                                                 data-price="{{ $subscription['price'] }}"
@@ -75,6 +76,20 @@
                                         placeholder="Number of months" min="1" value="1">
                                 </div>
                             </div>
+
+                            <div class="offset-3 col-6 mt-3" style="display:none" id="level_section">
+                                <div class="form-group">
+                                    <label id="level-label" for="level">Select Education Level to subscribe</label>
+
+                                    <select name="level" id="education_level" class="form-control">
+                                        <option value="">Select Level</option>
+                                        @foreach ($levels as $level)
+                                            <option value="{{ $level['level_id'] }}">{{ $level['level'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="mt-5">
@@ -111,6 +126,9 @@
                                         <input name="mobile" type="tel" id="mobile" class="form-control"
                                             placeholder="Enter Mobile Number" maxlength="9" required>
                                     </div>
+                                    @error('mobile')
+                                        <span class="text-danger small">{{ $errors->first('mobile') }}</span>
+                                    @enderror
                                 </div>
                                 <button class="btn btn-primary">Pay</button>
                                 <a href="{{ route('dashboard.home') }}" class="btn btn-danger">Cancel</a>
@@ -127,22 +145,31 @@
     @push('plugin-scripts')
         <script>
             document.addEventListener("DOMContentLoaded", function() {
+
                 const subscriptionSelect = document.getElementById("subscription");
                 const countInput = document.getElementById("count");
                 const countLabel = document.getElementById("count-label");
-                const packageName = document.getElementById("package-name");
-                const packageDescription = document.getElementById("package-description");
-                const packagePrice = document.getElementById("package-price");
                 const totalPrice = document.getElementById("total-price");
                 const startDate = document.getElementById("start-date");
                 const endDate = document.getElementById("end-date");
+                const packageName = document.getElementById("package-name");
+                const packageDescription = document.getElementById("package-description");
+                const packagePrice = document.getElementById("package-price");
+                const levelSection = document.getElementById("level_section");
+                const levelInput = document.getElementById("education_level");
+
 
                 function updateTotal() {
                     const selectedOption = subscriptionSelect.options[subscriptionSelect.selectedIndex];
-                    const price = parseFloat(selectedOption.getAttribute("data-price")) || 0;
+                    const price = parseFloat(selectedOption.getAttribute("data-price"));
                     const quantity = parseInt(countInput.value) || 1;
-                    totalPrice.textContent = `Tsh ${price * quantity}`;
 
+                    let total = 0;
+                    if (!isNaN(price)) {
+                        total = price * quantity;
+                    }
+
+                    totalPrice.textContent = `Tsh ${total}`;
                     // Calculate end date
                     if (selectedOption.getAttribute("data-type") !== "ppe") {
                         const start = new Date();
@@ -154,42 +181,63 @@
                         startDate.textContent = "-";
                         endDate.textContent = "-";
                     }
+
                 }
+
+                function updatePackageInformation() {
+                    const selectedOption = subscriptionSelect.options[subscriptionSelect.selectedIndex];
+                    packageName.textContent = selectedOption.getAttribute("data-name");
+                    packageDescription.textContent = selectedOption.getAttribute("data-description");
+                    packagePrice.textContent =
+                        `Tsh ${selectedOption.getAttribute("data-price")} @ Month/Exam`;
+
+                    const dataType = selectedOption.getAttribute("data-type");
+                    if (dataType == 'ppe') {
+                        countLabel.textContent = "How many exams?";
+                    } else {
+                        countLabel.textContent = "How many months?";
+                    }
+                }
+
+
+
+                function updateLevelField() {
+                    const selectedOption = subscriptionSelect.options[subscriptionSelect.selectedIndex];
+                    const dataType = selectedOption.getAttribute("data-type");
+
+                    if (dataType === 'level') {
+                        levelSection.style.display = "block";
+                        levelInput.setAttribute("required", "required");
+                    } else {
+                        levelSection.style.display = "none";
+                        levelInput.removeAttribute("required");
+                    }
+                }
+
+
+
 
                 subscriptionSelect.addEventListener("change", function() {
                     const selectedOption = this.options[this.selectedIndex];
-
                     if (selectedOption.value) {
-                        // Update package details
-                        packageName.textContent = selectedOption.getAttribute("data-name");
-                        packageDescription.textContent = selectedOption.getAttribute("data-description");
-                        packagePrice.textContent =
-                            `Tsh ${selectedOption.getAttribute("data-price")} @ Month/Exam`;
-
-                        // Check subscription type
-                        if (selectedOption.getAttribute("data-type") === "ppe") {
-                            countLabel.textContent = "How many exams?";
-                            countInput.placeholder = "Number of exams";
-                        } else {
-                            countLabel.textContent = "How many months?";
-                            countInput.placeholder = "Number of months";
-                        }
-
+                        updatePackageInformation();
                         updateTotal();
-                    } else {
-                        // Reset fields if no package is selected
-                        packageName.textContent = "-";
-                        packageDescription.textContent = "Select a package to see details.";
-                        packagePrice.textContent = "Tsh 0";
-                        totalPrice.textContent = "Tsh 0";
-                        countLabel.textContent = "How many months?";
-                        countInput.value = 1;
-                        startDate.textContent = "-";
-                        endDate.textContent = "-";
+                        updateLevelField();
                     }
                 });
 
-                countInput.addEventListener("input", updateTotal);
+                countInput.addEventListener("change", function() {
+                    updateTotal();
+                });
+
+                countInput.addEventListener("blur", function() {
+                    if (countInput.value.trim() === "" || isNaN(countInput.value) || parseInt(countInput
+                            .value) < 1) {
+                        countInput.value = 1;
+                        updateTotal();
+                    }
+                });
+
             });
 
 
