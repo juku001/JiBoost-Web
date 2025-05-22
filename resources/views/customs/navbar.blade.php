@@ -58,22 +58,20 @@
                             <ul class="nav d-flex flex-column mb-2 pb-1">
                                 <li class="nav-item"><a class="nav-link px-3 d-block"
                                         href="{{ route('profile.index') }}"> <span class="me-2 text-body align-bottom"
-                                            data-feather="user"></span><span>Profile</span></a></li>
+                                            data-feather="user"></span><span>{{ __('profile.title') }}</span></a></li>
                                 <li class="nav-item"><a class="nav-link px-3 d-block"
                                         href="{{ route('notification.index') }}"><span
                                             class="me-2 text-body align-bottom"
-                                            data-feather="pie-chart"></span>Notifications</a></li>
+                                            data-feather="pie-chart"></span>{{ __('notifications.title') }}</a></li>
                                 <li class="nav-item"><a class="nav-link px-3 d-block"
                                         href="{{ route('community.index') }}"> <span class="me-2 text-body align-bottom"
-                                            data-feather="lock"></span>Community</a></li>
-                                <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"> <span
-                                            class="me-2 text-body align-bottom" data-feather="settings"></span>Settings
-                                        &amp; Privacy </a>
+                                            data-feather="lock"></span>{{ __('community.title') }}</a></li>
+                                <li class="nav-item"><a class="nav-link px-3 d-block" href="{{ route('setting.index') }}"> <span
+                                            class="me-2 text-body align-bottom" data-feather="settings"></span>{{ __('setting.title') }}</a>
                                 </li>
                                 <li class="nav-item"><a class="nav-link px-3 d-block"
                                         href="{{ route('helpcenter.index') }}"> <span
-                                            class="me-2 text-body align-bottom" data-feather="help-circle"></span>Help
-                                        Center</a></li>
+                                            class="me-2 text-body align-bottom" data-feather="help-circle"></span>{{ __('help_center.title') }}</a></li>
                                 <li class="nav-item"><a class="nav-link px-3 d-block" href="#!"> <span
                                             class="me-2 text-body align-bottom"
                                             data-feather="globe"></span>Language</a></li>
@@ -86,7 +84,7 @@
                             <div class="px-3">
                                 <a class="btn btn-subtle-danger d-flex flex-center w-100"
                                     href="{{ route('logout') }}">
-                                    <span class="me-2" data-feather="log-out"> </span>Sign out</a>
+                                    <span class="me-2" data-feather="log-out"> </span>{{ __('sign_out') }}</a>
                             </div>
                             <div class="my-2 text-center fw-bold fs-10 text-body-quaternary"><a
                                     class="text-body-quaternary me-1" href="#!">Privacy

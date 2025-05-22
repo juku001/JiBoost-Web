@@ -83,10 +83,10 @@ class CustomFunctions
         $isChecked = $choice == $correct;
 
         if ($isChecked) {
-            return '<span class="small text-success">' . $correctAnswer . '</span>';
+            return '<span class="small text-success">' . LaTexHelper::extractLatex($correctAnswer) . '</span>';
         } else {
             $choiceAnswer = $question[$choice] ?? 'N/A';
-            return '<span class="small text-danger fw-semibold"> ' . $choiceAnswer . '</span><span class="small"> (' . $correctAnswer . ')</span>';
+            return '<span class="small text-danger fw-semibold"> ' . LaTexHelper::extractLatex($choiceAnswer) . '</span><span class="small"> (' . LaTexHelper::extractLatex($correctAnswer) . ')</span>';
         }
     }
 

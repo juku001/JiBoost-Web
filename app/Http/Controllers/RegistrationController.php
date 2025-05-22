@@ -188,6 +188,8 @@ class RegistrationController extends Controller
         $response = Http::get($url);
         $levels = $response->json();
 
+    
+
         return view('auth.signup', compact('levels'));
     }
 

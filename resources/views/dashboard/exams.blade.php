@@ -7,7 +7,7 @@
 
     <div class="content">
         <div class="row gy-3 mb-4 justify-content-between">
-            <div class="col-xxl-6">
+            <div class="col-12">
                 <h2 class="mb-2 text-body-emphasis">Exams</h2>
                 <h5 class="text-body-tertiary fw-semibold mb-2">Select an exam series to start with</h5>
 

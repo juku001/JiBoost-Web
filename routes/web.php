@@ -14,6 +14,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\SpecialDocumentsController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UsersController;
@@ -22,8 +23,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome')->middleware('isFirstUser');
-Route::get('privacy-policy', [SpecialDocumentsController::class, 'privacy']);
+Route::get('privacy-policy', [SpecialDocumentsController::class, 'privacy'])->name('settings.privacy');
 Route::get('app', [SpecialDocumentsController::class, 'app'])->name('playstore');
+Route::get('change-language', [SpecialDocumentsController::class, 'changeLanguage'])->name('settings.lang')->middleware('lang');
 
 Route::middleware(['guest.api'])->group(function () {
     Route::get('/login', [AuthController::class, 'index'])->name('auth.login');
@@ -33,7 +35,7 @@ Route::middleware(['guest.api'])->group(function () {
     Route::post('/register/start', [RegistrationController::class, 'store'])->name('auth.register.signup');
     Route::post('/check/email', [RegistrationController::class, 'validateEmail'])->name('auth.register.validate.email');
     Route::post('/check/mobile', [RegistrationController::class, 'validateMobile'])->name('auth.register.validate.mobile');
-    
+
 
     //new here
     Route::get('forgot_password', [AuthController::class, 'forgot'])->name('password.forgot');
@@ -45,7 +47,7 @@ Route::middleware(['guest.api'])->group(function () {
     Route::post('reset_password', [AuthController::class, 'resetPassword'])->name('password.new');
 });
 
-Route::middleware(['api.auth'])->group(function () {
+Route::middleware(['api.auth', 'lang'])->group(function () {
 
     Route::prefix('/profile')->group(function () {
         Route::get('/', [ProfileController::class, 'index'])->name('profile.index');
@@ -63,8 +65,8 @@ Route::middleware(['api.auth'])->group(function () {
     Route::prefix('community')->group(function () {
         Route::get('/', [CommunityController::class, 'index'])->name('community.index');
     });
-
     Route::get('/help-center', [FaqController::class, 'help'])->name('helpcenter.index');
+    Route::get('/settings', [SettingController::class, 'index'])->name('setting.index');
 
     Route::middleware(['isNotAdmin'])->group(function () {
 

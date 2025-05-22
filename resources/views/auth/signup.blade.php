@@ -83,10 +83,10 @@
 
                         <div class="my-4">
                             <div class="text-center my-1">
-                                <button class="btn btn-primary" id="firstStepNext">Next</button>
+                                <button class="btn btn-reg primary" id="firstStepNext">Next</button>
                             </div>
                             <div class="text-center my-1">
-                                <button class="btn btn-danger" id="firstStepCancel">Back</button>
+                                <button class="btn btn-reg danger" id="firstStepCancel">Back</button>
                             </div>
                         </div>
                     </div>
@@ -156,10 +156,10 @@
 
                         <div class="my-4">
                             <div class="text-center my-1">
-                                <button class="btn btn-primary" id="secondStepNext">Next</button>
+                                <button class="btn btn-reg primary" id="secondStepNext">Next</button>
                             </div>
                             <div class="text-center my-1">
-                                <button class="btn btn-danger" id="secondStepCancel">Cancel</button>
+                                <button class="btn btn-reg danger" id="secondStepCancel">Cancel</button>
                             </div>
                         </div>
                     </div>
@@ -195,10 +195,10 @@
                         </div>
                         <div class="my-4">
                             <div class="text-center my-1">
-                                <button class="btn btn-primary" id="thirdStepNext">Submit</button>
+                                <button class="btn btn-reg primary" id="thirdStepNext">Submit</button>
                             </div>
                             <div class="text-center my-1">
-                                <button class="btn btn-danger" id="thirdStepCancel">Cancel</button>
+                                <button class="btn btn-reg danger" id="thirdStepCancel">Cancel</button>
                             </div>
                         </div>
                     </div>
@@ -355,14 +355,31 @@
                             fieldValid = false;
                             if (errorElement) errorElement.textContent =
                                 'Please enter a valid email address.';
-                        } else if (input.name === 'phone' && !phoneRegex.test(value)) {
+                        } else if (input.name === 'mobile' && !phoneRegex.test(value)) {
                             fieldValid = false;
                             if (errorElement) errorElement.textContent =
                                 'Phone must start with 255 followed by 6 or 7 and 8 digits.';
-                        } else if (input.name === 'password' && !passwordRegex.test(value)) {
-                            fieldValid = false;
-                            if (errorElement) errorElement.textContent =
-                                'Password must be at least 8 characters, contain one uppercase letter and one number.';
+                        } else if (input.name === 'password') {
+                            const lengthValid = value.length >= 8;
+                            const hasUppercase = /[A-Z]/.test(value);
+                            const hasNumber = /\d/.test(value);
+
+                            if (!lengthValid) {
+                                fieldValid = false;
+                                if (errorElement) errorElement.textContent =
+                                    "Password must be at least 8 characters.";
+                            } else if (!hasUppercase) {
+                                fieldValid = false;
+                                if (errorElement) errorElement.textContent =
+                                    "Password must contain at least one uppercase letter.";
+                            } else if (!hasNumber) {
+                                fieldValid = false;
+                                if (errorElement) errorElement.textContent =
+                                    "Password must contain at least one number.";
+                            } else {
+                                if (errorElement) errorElement.textContent =
+                                    "Please enter the password for your account";
+                            }
                         } else {
                             // Reset to original message if valid
                             if (errorElement) {
@@ -455,7 +472,17 @@
 
             // Initialize first step
             showStep(currentStep);
+
+
+
+
+
+
+            
         });
+
+
+    
     </script>
 
 </body>

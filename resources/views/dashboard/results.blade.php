@@ -10,7 +10,7 @@
 
     <div class="content">
         <div class="row gy-3  justify-content-between">
-            <div class="col-xxl-6">
+            <div class="col-12">
                 <h2 class="mb-2 text-body-emphasis">Results</h2>
                 <h5 class="text-body-tertiary fw-semibold mb-4">Check your business growth in one place</h5>
 
@@ -70,53 +70,6 @@
                     </a>
                 </div>
             @endforeach
-
-
-
-            {{-- @foreach ($results as $result)
-                @php
-                    $isSubmitted = $result['end_type'] == 'submitted';
-                @endphp
-                <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-                    <div class="card">
-                        <div class="card-body  bg-{{ $isSubmitted ? 'primary' : 'danger' }}-subtle px-2 py-2">
-                            <div class="result-item {{ $isSubmitted ? 'primary' : 'danger' }}">
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <h5 class="text-{{ $isSubmitted ? 'primary' : 'danger' }}-emphasis">
-                                            {{ $result['series_title'] }}</h5>
-                                        <p class="small fw-bold">{{ $result['subject'] }} |
-                                            {{ $result['education_level'] }}</p>
-                                        <p></p>
-                                        <p></p>
-
-                                        <div class="d-flex justify-content-between">
-                                            
-                                            <span
-                                                class="small">{{ CustomFunctions::formatDateTimeFromDateTime($result['start_time']) }}</span>
-                                            
-
-
-                                            <span>score</span>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <span class="fw-bold" style="font-style: italic">
-                                            {{ $isSubmitted ? $result['questions_checked'] . '/' . $result['questions_count'] : $result['questions_count'] }}
-                                            Qns
-                                        </span>
-                                        <p></p>
-                                        <p></p>
-                                        <p>
-                                            <span></span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach --}}
         </div>
     </div>
 @endsection

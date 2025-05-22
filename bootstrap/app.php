@@ -5,6 +5,7 @@ use App\Http\Middleware\FirstTimeRedirect;
 use App\Http\Middleware\GuestApiMiddleware;
 use App\Http\Middleware\isAdminMiddleware;
 use App\Http\Middleware\isNotAdminMiddleware;
+use App\Http\Middleware\LanguageMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -21,7 +22,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'api.auth' => ApiAuthMiddleware::class,
             'guest.api' => GuestApiMiddleware::class,
             'isAdmin' => isAdminMiddleware::class,
-            'isNotAdmin' => isNotAdminMiddleware::class
+            'isNotAdmin' => isNotAdminMiddleware::class,
+            'lang' => LanguageMiddleware::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

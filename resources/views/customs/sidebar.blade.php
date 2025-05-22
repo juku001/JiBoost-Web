@@ -7,7 +7,7 @@
                         <a class="nav-link label-1 {{ Request::is('dashboard') ? 'active' : '' }}" href="/dashboard">
                             <div class="d-flex align-items-center">
                                 <span class="nav-link-icon"><span data-feather="home"></span></span>
-                                <span class="nav-link-text">Home</span>
+                                <span class="nav-link-text">{{ __('navigation.home') }}</span>
                             </div>
                         </a>
                     </div>
@@ -18,7 +18,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="dropdown-indicator-icon-wrapper"></div>
                                 <span class="nav-link-icon"><span data-feather="help-circle"></span></span>
-                                <span class="nav-link-text">Exams</span>
+                                <span class="nav-link-text">{{ __('navigation.exams') }}</span>
                             </div>
                         </a>
                     </div>
@@ -29,7 +29,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="dropdown-indicator-icon-wrapper"></div>
                                 <span class="nav-link-icon"><span data-feather="file-text"></span></span>
-                                <span class="nav-link-text">Results</span>
+                                <span class="nav-link-text">{{ __('navigation.results') }}</span>
                             </div>
                         </a>
                     </div>
@@ -40,7 +40,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="dropdown-indicator-icon-wrapper"></div>
                                 <span class="nav-link-icon"><span class="fas fa-money-check"></span></span>
-                                <span class="nav-link-text">Payments</span>
+                                <span class="nav-link-text">{{ __('navigation.payments') }}</span>
                             </div>
                         </a>
                     </div>

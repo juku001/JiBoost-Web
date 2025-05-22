@@ -9,9 +9,10 @@
 @section('content')
     @php
         use App\Helpers\CustomFunctions;
+        use App\Helpers\LaTexHelper;
         $isSubmitted = $exam['end_type'] == 'submitted';
         $data = session(env('USER_INFO_KEY'));
-        $name = $dat['name'];
+        $name = $data['name'];
     @endphp
     <div class="content">
         <div class="text-center">
@@ -113,7 +114,7 @@
                             @foreach ($questions as $index => $question)
                                 <div class="mt-3">
                                     <p class="m-0 small">Qn. {{ $index + 1 }}</p>
-                                    <p class="m-0 small" style="white-space: pre-wrap;">{{ $question['question_text'] }}
+                                    <p class="m-0 small" style="white-space: pre-wrap;">{{ LaTexHelper::extractLatex($question['question_text']) }}
                                     </p>
                                     <p class="text-primary m-0 small">Your Answer</p>
                                     <p class="m-0">
@@ -134,3 +135,7 @@
         </div>
     </div>
 @endsection
+@push('plugin-scripts')
+    <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+@endpush

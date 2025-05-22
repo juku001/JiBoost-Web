@@ -1,6 +1,8 @@
 @extends('layouts.main')
 @section('title', 'Examination')
-
+@php
+    use App\Helpers\LaTexHelper;
+@endphp
 @section('content')
     <div class="content">
         <div class="container mb-2">
@@ -49,7 +51,7 @@
                                         <div class="row">
                                             @if ($question['image'])
                                                 <div class="col-md-8 col-12">
-                                                    <h5>{{ $question['question_text'] }}</h5>
+                                                    <h5>{{ LaTexHelper::extractLatex($question['question_text']) }}</h5>
                                                 </div>
                                                 <div class="col-md-4 col-12 text-center">
                                                     <img src="{{ $question['image'] }}" class="img-fluid rounded shadow"
@@ -57,7 +59,7 @@
                                                 </div>
                                             @else
                                                 <div class="col-12">
-                                                    <h5>{{ $question['question_text'] }}</h5>
+                                                    <h5>{{ LaTexHelper::extractLatex($question['question_text']) }}</h5>
                                                 </div>
                                             @endif
                                         </div>
@@ -84,7 +86,8 @@
                                                 <div class="form-check">
                                                     <input type="radio" class="form-check-input"
                                                         name="answers[{{ $question['id'] }}]" value="{{ $opt['key'] }}">
-                                                    <label class="form-check-label">{{ $opt['label'] }}</label>
+                                                    <label
+                                                        class="form-check-label">{{ LaTexHelper::extractLatex($opt['label']) }}</label>
                                                 </div>
                                             @endforeach
 
@@ -157,6 +160,9 @@
                                 const endTime = new Date().toISOString();
                                 document.getElementById('end_time').value = endTime;
                                 document.getElementById('end_type').value = 'cancelled';
+                                // Example: call this when exam is submitted manually
+                                localStorage.removeItem("exam_end_time");
+
 
                                 const answers = {};
                                 const inputs = document.querySelectorAll('input[type="radio"]:checked');
@@ -178,6 +184,9 @@
                                 const endTime = new Date().toISOString();
                                 document.getElementById('end_time').value = endTime;
                                 document.getElementById('end_type').value = 'submitted';
+                                // Example: call this when exam is submitted manually
+                                localStorage.removeItem("exam_end_time");
+
 
                                 const answers = {};
                                 const inputs = document.querySelectorAll('input[type="radio"]:checked');
@@ -227,13 +236,55 @@
 
 
 
+                        // document.addEventListener("DOMContentLoaded", function() {
+                        //     const durationInMinutes = {{ $response['duration'] ?? 0 }};
+                        //     const endTime = new Date().getTime() + durationInMinutes * 60 * 1000;
+
+                        //     const hoursEl = document.getElementById("hours");
+                        //     const minutesEl = document.getElementById("minutes");
+                        //     const secondsEl = document.getElementById("seconds");
+
+                        //     if (durationInMinutes > 0) {
+                        //         const countdown = setInterval(() => {
+                        //             const now = new Date().getTime();
+                        //             const distance = endTime - now;
+
+                        //             if (distance <= 0) {
+                        //                 clearInterval(countdown);
+                        //                 hoursEl.innerText = minutesEl.innerText = secondsEl.innerText = "00";
+                        //                 return;
+                        //             }
+
+                        //             const hours = Math.floor((distance / (1000 * 60 * 60)));
+                        //             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        //             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                        //             hoursEl.innerText = String(hours).padStart(2, '0');
+                        //             minutesEl.innerText = String(minutes).padStart(2, '0');
+                        //             secondsEl.innerText = String(seconds).padStart(2, '0');
+                        //         }, 1000);
+                        //     } else {
+                        //         hoursEl.innerText = minutesEl.innerText = secondsEl.innerText = "--";
+                        //     }
+                        // });
+
                         document.addEventListener("DOMContentLoaded", function() {
                             const durationInMinutes = {{ $response['duration'] ?? 0 }};
-                            const endTime = new Date().getTime() + durationInMinutes * 60 * 1000;
-
                             const hoursEl = document.getElementById("hours");
                             const minutesEl = document.getElementById("minutes");
                             const secondsEl = document.getElementById("seconds");
+
+                            const storageKey = "exam_end_time";
+
+                            let endTime;
+
+                            // Check if endTime is already stored
+                            if (localStorage.getItem(storageKey)) {
+                                endTime = parseInt(localStorage.getItem(storageKey));
+                            } else {
+                                endTime = new Date().getTime() + durationInMinutes * 60 * 1000;
+                                localStorage.setItem(storageKey, endTime);
+                            }
 
                             if (durationInMinutes > 0) {
                                 const countdown = setInterval(() => {
@@ -243,6 +294,10 @@
                                     if (distance <= 0) {
                                         clearInterval(countdown);
                                         hoursEl.innerText = minutesEl.innerText = secondsEl.innerText = "00";
+                                        localStorage.removeItem(storageKey); // clear storage when time is up
+
+                                        // Optional: auto-submit the exam or redirect
+                                        // document.getElementById("examForm").submit();
                                         return;
                                     }
 
@@ -270,10 +325,14 @@
             <div style="position: fixed; bottom: 20px; left: 0; right: 0; padding: 0 15px; z-index: 1050;">
                 <div class="d-flex justify-content-between mx-auto" style="max-width: 400px;">
                     <button type="submit" form="examForm" class="btn btn-exam cancel" id="cancelExamBtn">Cancel Exam</a>
-                    <button type="submit" form="examForm" class="btn btn-exam submit" id="submitExamBtn">Submit
-                        Exam</button>
+                        <button type="submit" form="examForm" class="btn btn-exam submit" id="submitExamBtn">Submit
+                            Exam</button>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+@push('plugin-scripts')
+    <script type="text/javascript" async src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/javascript" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+@endpush

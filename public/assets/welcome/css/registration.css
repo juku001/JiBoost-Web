@@ -28,9 +28,25 @@ body{
 
 .input-jb-radio { 
     border: 2px solid #00394F;
-    backround-color : red;
+    /* background-color : red; */
 }
 
+
+.btn-reg{
+    /* padding: 8px 30px; */
+    width: 200px;
+    margin-top: 5px;
+}
+
+.btn-reg.primary{
+    background-color: #00394F;
+    color: white;
+}
+
+.btn-reg.danger{
+    background-color: #c01c02;
+    color: white;
+}
 
 @media (max-width: 576px) {
     .step-circle {
@@ -38,5 +54,7 @@ body{
         height: 25px;
         font-size: 10px;
     }
+    .btn-reg{
+        width: 110px;
+    }
 }
-
