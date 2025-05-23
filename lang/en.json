@@ -41,7 +41,11 @@
   "help_center.call": "Call Us",
   "help_center.whatsapp": "Whatsapp Us",
   "help_center.email": "Email Us",
+  "help-center.question" : "How can we help?",
+  "help-center.topic" : "Search for the topic you need help with or ",
+  "help-center.contact" : "contact our support",
   "exams.subtitle": "Access and complete your exams to improve your knowledge and skills.",
   "results.subtitle": "Review your scores, track improvements and analyze your performance.",
   "payments.subtitle": "Manage subscriptions, view transactions and stay up to date with payments."
+  
 }

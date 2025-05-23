@@ -9,7 +9,7 @@
         <div class="mb-9">
             <div class="row g-3 mb-4">
                 <div class="col-auto">
-                    <h2 class="mb-0">Payments</h2>
+                    <h2 class="mb-0">{{ __('navigation.payments') }}</h2>
                 </div>
             </div>
             {{-- <div class="mb-4">
@@ -39,7 +39,7 @@
             <div class="fluid-container">
                 <div class="row">
                     <div class="col-12 text-center my-9">
-                        Payments will show up here, when you subscribe.
+                        {{ __('payments.subtitle') }}
                     </div>
                 </div>
             </div>

@@ -8,7 +8,7 @@
 
         <div class="row gy-3 mb-4 justify-content-between">
             <div class="col-xxl-6">
-                <h2 class="mb-2 text-body-emphasis">Profile</h2>
+                <h2 class="mb-2 text-body-emphasis">{{ __('profile.title') }}</h2>
             </div>
 
             <div class="col-12">
@@ -17,27 +17,26 @@
                         <form action="{{ route('profile.update') }}" method="POST">
                             @csrf
                             <div class="row h-100 py-5">
-                                <h4 class="small">Profile Information</h4>
-                                <p class="small">Update your account profile information and email address</p>
+                                <h4 class="small">{{ __('profile.info_title') }}</h4>
+                                <p class="small">{{__('profile.info_subtitle') }}</p>
                                 <div class="form-group mt-3">
-                                    <label class="small" for="name">Name</label>
-                                    <input type="text" class="form-control" name="name" placeholder="Enter your name"
+                                    <label class="small" for="name">{{ __('profile.name') }}</label>
+                                    <input type="text" class="form-control" name="name" placeholder="{{ __('profile.name_placeholder') }}"
                                         value="{{ $user['name'] ?? '' }}" required>
                                 </div>
                                 <div class="form-group mt-3">
-                                    <label class="small" for="mobile">Mobile Number</label>
+                                    <label class="small" for="mobile">{{ __('profile.mobile') }}</label>
                                     <input type="text" class="form-control" name="mobile"
-                                        placeholder="Enter your mobile number" value="{{ $user['mobile'] ?? '' }}"
+                                        placeholder="{{ __('profile.mobile_placeholder') }}" value="{{ $user['mobile'] ?? '' }}"
                                         maxlength="12" required>
                                     @error('mobile')
                                         <span class="small text-danger">{{ $errors->first('mobile') }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group mt-3">
-                                    <label class="small" for="education">Education Level</label>
+                                    <label class="small" for="education">{{ __('profile.education_level') }}</label>
                                     <select name="level" id="" class="form-control" required>
-                                        <option value="">
-                                            Select Education level</option>
+                                        <option value="">{{ __('profile.education_level_placeholder') }}</option>
                                         @foreach ($levels as $level)
                                             @if (isset($user['level_id']))
                                                 <option {{ $user['level_id'] == $level['id'] ? 'selected' : '' }}
@@ -49,7 +48,7 @@
                                     </select>
                                 </div>
                                 <div>
-                                    <button class="btn btn-jb-primary">Save</button>
+                                    <button class="btn btn-jb-primary">{{ __('profile.save') }}</button>
                                 </div>
                             </div>
                         </form>
@@ -63,25 +62,25 @@
                         <form action="{{ route('profile.update.password') }}" method="POST">
                             @csrf
                             <div class="row h-100">
-                                <h4 class="small">Update Password</h4>
-                                <p class="small">Ensure your account is using a long, random password to stay secure</p>
+                                <h4 class="small">{{ __('profile.update_password') }}</h4>
+                                <p class="small">{{ __('profile.update_password_subtitle') }}</p>
                                 <div class="form-group mt-3">
-                                    <label class="small" for="old_password">Current Password</label>
+                                    <label class="small" for="old_password">{{ __('profile.current') }}</label>
                                     <input type="password" name="old_password" class="form-control">
                                 </div>
                                 <div class="form-group mt-3">
-                                    <label class="small" for="current_password">New Password</label>
+                                    <label class="small" for="current_password">{{ __('profile.new') }}</label>
                                     <input type="password" name="current_password" class="form-control">
                                 </div>
                                 <div class="form-group mt-3">
-                                    <label class="small" for="current_password_confirmation">Confirm Password</label>
+                                    <label class="small" for="current_password_confirmation">{{ __('profile.confirm') }}</label>
                                     <input type="password" name="current_password_confirmation" class="form-control">
                                     @error('current_password')
                                         <span class="small text-danger">{{ $errors->first('current_password') }}</span>
                                     @enderror
                                 </div>
                                 <div>
-                                    <button class="btn btn-jb-primary">Save</button>
+                                    <button class="btn btn-jb-primary">{{ __('profile.save') }}</button>
                                 </div>
                             </div>
 
@@ -96,17 +95,15 @@
                 <div class="card h-100">
                     <div class="card-body">
                         <div class="row h-100">
-                            <h4 class="small">Delete Account</h4>
+                            <h4 class="small">{{ __('profile.delete_account') }}</h4>
                             <p class="small">
-                                Once your account is deleted, all of its resources and data will be permanently deleted.
-                                Before deleting your account, please download any data or information that you wish to
-                                retain.
+                                {{ __('profile.delete_warning') }}
                             </p>
 
                             <div class="col-12">
                                 <!-- Trigger Modal -->
                                 <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
-                                    Delete Account
+                                    {{ __('profile.delete_account') }}
                                 </button>
                             </div>
                         </div>
