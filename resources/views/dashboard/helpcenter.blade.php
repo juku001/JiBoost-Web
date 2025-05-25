@@ -3,6 +3,7 @@
 @section('sub_title')
     <h5 class="logo-text ms-2 jb-heading" style="font-size: medium">JiBoost</h5>
 @endsection
+@section('new-route', url()->previous())
 @section('content')
     <div class="content" style="overflow: hidden">
         <div class="mb-5">
@@ -44,7 +45,7 @@
                     </a>
                 </div>
                 <div class="col-xxl-2 col-xl-2 col-md-2 col-4 h-100">
-                    <a href="https://wa.me/255687181497?text=Hello%20JiBoost%20Support" class="text-decoration-none">
+                    <a target="_blank" href="https://wa.me/255687181497?text=Hello%20JiBoost%20Support" class="text-decoration-none">
                         <div class="card text-center h-100 py-3 py-md-8">
                             <div>
                                 <span>

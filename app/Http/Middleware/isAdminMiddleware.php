@@ -15,7 +15,9 @@ class isAdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (session(env('USER_INFO_KEY'))['user_type'] == 'superadmin') {
+        $array = (array) session(env('USER_INFO_KEY'));
+
+        if ($array['user_type'] == 'superadmin') {
             return $next($request);
         } else {
             return redirect()->route('welcome');

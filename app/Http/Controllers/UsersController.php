@@ -12,7 +12,7 @@ class UsersController extends Controller
     {
 
 
-        $token = session(env('API_TOKEN_KEY'));
+        $token = (string) session(env('API_TOKEN_KEY'));
         $url = ApiRoutes::users();
         $response = Http::withToken($token)->get($url);
         $users = $response->json()['data'];
@@ -34,11 +34,24 @@ class UsersController extends Controller
                 $dataCount['teachers']++;
             }
         }
-
-        // Now, $dataCount contains the count of each user type
-
-
         $apiRoutes = new ApiRoutes();
         return view('admin.users', compact('users', 'apiRoutes', 'dataCount'));
+    }
+
+
+    public function show($id)
+    {
+        $token = (string) session(env('API_TOKEN_KEY'));
+        $url = ApiRoutes::getUser($id);
+        $response = Http::withToken($token)->get($url);
+        $user = null;
+        if($response->successful()){
+            $user = $response->json()['data'];
+        }
+
+        // return response()->json($user);
+
+        return view('admin.user-details',compact('user'));
+
     }
 }

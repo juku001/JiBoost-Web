@@ -107,8 +107,10 @@ class ApiRoutes
         return self::apiUrl() . 'user';
     }
 
-
-
+    public static function getUser($id)
+    {
+        return self::apiUrl() . 'user/' . $id;
+    }
 
     /**
      * User Routes
@@ -158,6 +160,13 @@ class ApiRoutes
     public static function payments(): string
     {
         return self::apiUrl() . 'payments';
+
+
+    }
+
+    public static function allPayments(): string
+    {
+        return self::apiUrl() . 'all/payments';
     }
 
     public static function singlePayment($id): string

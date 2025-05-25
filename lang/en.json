@@ -6,6 +6,7 @@
   "navigation.payments": "Payments",
   "sign_out": "Sign Out",
   "setting.title": "Settings & Privacy",
+  "setting.subtitle":"Change Language, Account Visibility and other settings.",
   "setting.lang": "Change Language",
   "setting.notify": "Notify me on new Exams",
   "dashboard.title": "Dashboard",

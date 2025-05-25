@@ -71,12 +71,12 @@
                                 $levelSubject['level_id'],
                             );
                             $route = route('examination.series.show', [
-                                'sub' => $levelSubjectId,
-                                'series' => $series['id'],
+                                'sub' => CustomFunctions::encrypt($levelSubjectId),
+                                'series' => CustomFunctions::encrypt($series['id']),
                             ]);
                             if ($isAllowed == false) {
                                 $route = route('examination.series.deny', [
-                                    'id' => $levelSubjectId,
+                                    'id' => CustomFunctions::encrypt($levelSubjectId),
                                 ]);
                             }
                         @endphp

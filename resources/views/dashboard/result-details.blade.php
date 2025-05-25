@@ -6,12 +6,14 @@
 @section('plugin-styles')
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 @endsection
+@section('new-route', route('dashboard.results'))
 @section('content')
     @php
         use App\Helpers\CustomFunctions;
         use App\Helpers\LaTexHelper;
+        use App\Helpers\ApiRoutes;
         $isSubmitted = $exam['end_type'] == 'submitted';
-        $data = session(env('USER_INFO_KEY'));
+        $data = (array) session(env('USER_INFO_KEY'));
         $name = $data['name'];
     @endphp
     <div class="content">
@@ -112,18 +114,35 @@
                         </div>
                         <div class="mt-4 text-start">
                             @foreach ($questions as $index => $question)
-                                <div class="mt-3">
+                                <div class="mt-3 text-start w-100">
                                     <p class="m-0 small">Qn. {{ $index + 1 }}</p>
-                                    <p class="m-0 small" style="white-space: pre-wrap;">{{ LaTexHelper::extractLatex($question['question_text']) }}
-                                    </p>
-                                    <p class="text-primary m-0 small">Your Answer</p>
-                                    <p class="m-0">
-                                        {!! CustomFunctions::giveAnswerResult($question, $exam['questions_data']) !!}
 
+                                    <p class="m-0 small w-100">
+                                    <div class="text-start">
+                                        {!! LaTexHelper::extractLatex($question['question_text']) !!}
+                                    </div>
+                                    </p>
+
+                                    @if (isset($question['image']))
+                                        <p class="m-0 small w-100 text-start">
+                                            {{-- <img target="_blank" href="{{ ApiRoutes::baseUrl() . '/' . $question['image'] }}"
+                                                class="d-inline-block text-start">
+                                                View Image
+                                            > --}}
+                                            <img class="img-fluid" width="150"
+                                                src="{{ ApiRoutes::baseUrl() . '/' . $question['image'] }}"
+                                                alt="question {{ $index + 1 }}">
+                                        </p>
+                                    @endif
+
+                                    <p class="text-primary m-0 small">Your Answer</p>
+                                    <p class="m-0 w-100 text-start">
+                                        {!! CustomFunctions::giveAnswerResult($question, $exam['questions_data']) !!}
                                     </p>
                                 </div>
                             @endforeach
                         </div>
+
                     </div>
                 </div>
             </div>

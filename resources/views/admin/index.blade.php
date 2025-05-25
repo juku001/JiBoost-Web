@@ -10,90 +10,108 @@
                 <h2 class="mb-2 text-body-emphasis">Admin Dashboard</h2>
                 <h5 class="text-body-tertiary fw-semibold mb-4">Check your business growth in one place</h5>
                 <div class="row g-3 mb-3">
-                    {{-- <div class="col-12">
+                    <div class="col-sm-6 col-md-4 col-xl-3 col-xxl-4">
                         <div class="card h-100">
                             <div class="card-body">
-                                <div class="row h-100">
-                                    <!-- Left Side (Centered Content) -->
-                                    <div
-                                        class="col-xl-6 col-lg-6 col-md-6 col-12 d-flex align-items-center justify-content-center mb-5 mb-md-0 mt-5 mt-md-0">
-                                        <h2 class="text-center jb-heading">Welcome to JiBoost</h2>
-                                    </div>
-                                    <!-- Right Side (Fixed Height) -->
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-12">
-                                        <div class="bg-danger-subtle rounded-4 text-center d-flex align-items-center justify-content-center"
-                                            style="height: 25vh; min-height: 35vh;">
-                                            <div class="row">
-                                                <div>
-                                                    <p class="text-danger-emphasis">You don't have any active
-                                                        subscription</p>
-                                                </div>
-                                                <div class="">
-                                                    <button class="btn btn-danger me-1 mb-1"
-                                                        type="button">Subscribe</button>
-                                                </div>
-                                            </div>
+                                <div class="d-flex d-sm-block justify-content-between">
+                                    <div class="border-bottom-sm border-translucent mb-sm-4">
+                                        <div class="d-flex align-items-center">
+                                            <div class="d-flex align-items-center icon-wrapper-sm shadow-info-100"
+                                                style="transform: rotate(-7.45deg);"><span
+                                                    class="fa-solid fa-calendar text-info fs-7 z-1 ms-2"></span></div>
+                                            <p class="text-body-tertiary fs-9 mb-0 ms-2 mt-3">This Month</p>
                                         </div>
+                                        <p class="text-primary mt-2 fs-6 fw-bold mb-0 mb-sm-4">3 <span
+                                                class="fs-8 text-body lh-lg">Students</span></p>
+                                    </div>
+                                    <div
+                                        class="d-flex flex-column justify-content-center flex-between-end d-sm-block text-end text-sm-start">
+                                        <span class="badge badge-phoenix badge-phoenix-success fs-10 mb-2">+24.5%</span>
+                                        <p class="mb-0 fs-9 text-body-tertiary">Than Last Month</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
-                    <div class="col-xl-6 col-xxl-5">
-                        <div class="card">
+                    <div class="col-sm-6 col-md-4 col-xl-3 col-xxl-4">
+                        <div class="card h-100">
                             <div class="card-body">
-                                <div class="d-flex justify-content-between mt-5 mb-5">
-                                    <div>
-                                        <h3>PayExam Balance</h3>
+                                <div class="d-flex d-sm-block justify-content-between">
+                                    <div class="border-bottom-sm border-translucent mb-sm-4">
+                                        <div class="d-flex align-items-center">
+                                            <div class="d-flex align-items-center icon-wrapper-sm shadow-info-100"
+                                                style="transform: rotate(-7.45deg);"><span
+                                                    class="fa-solid fa-calendar text-info fs-7 z-1 ms-2"></span></div>
+                                            <p class="text-body-tertiary fs-9 mb-0 ms-2 mt-3">This Week</p>
+                                        </div>
+                                        <p class="text-info mt-2 fs-6 fw-bold mb-0 mb-sm-4">12 <span
+                                                class="fs-8 text-body lh-lg">Students</span></p>
                                     </div>
-                                    <div class="">
-                                        <i class="far fa-money-bill-alt"></i>
+                                    <div
+                                        class="d-flex flex-column justify-content-center flex-between-end d-sm-block text-end text-sm-start">
+                                        <span class="badge badge-phoenix badge-phoenix-danger fs-10 mb-2">+24.5%</span>
+                                        <p class="mb-0 fs-9 text-body-tertiary">Than last week</p>
                                     </div>
-                                </div>
-                                <div>
-                                    <h4>Tsh 0</h4>
-                                </div>
-                                <div class="mt-2">
-                                    <span>0 Exams Left</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-xl-6 col-xxl-5">
-                        <div class="card border h-100 w-100 overflow-hidden">
-                            <div class="bg-holder d-block bg-card"
-                                style="background-image:url(assets/img/spot-illustrations/32.png);background-position: top right;">
-                            </div>
-                            <!--/.bg-holder-->
-                            <div class="d-dark-none">
-                                <div class="bg-holder d-none d-sm-block d-xl-none d-xxl-block bg-card"
-                                    style="background-image:url(assets/img/spot-illustrations/21.png);background-position: bottom right; background-size: auto;">
+                    <div class="col-md-4 col-xl-6 col-xxl-4 gy-5 gy-md-3">
+                        <div class="border-bottom border-translucent">
+                            <h5 class="pb-4 border-bottom border-translucent">Top 5 Quartery Best Students</h5>
+                            <ul class="list-group list-group-flush">
+                                @for ($i = 0; $i < 5; $i++)
+                                    <li class="list-group-item bg-transparent list-group-crm fw-bold text-body fs-9 py-2">
+                                        <div class="d-flex justify-content-between"><span class="fw-normal fs-9 mx-1"> <span
+                                                    class="fw-bold">{{ $i + 1 }}.</span>
+                                                Partner</span><span>(23)</span></div>
+                                    </li>
+                                @endfor
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-12">
+                        <div class="row g-3 mb-3">
+                            <div class="col-12 col-md-6">
+                                <p class="text-body-tertiary mb-md-7">Quartery Earning</p>
+                                <h3 class="text-body-emphasis text-nowrap">Tsh 12,000</h3>
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <p class="mb-0 fw-bold">Transaction Type </p>
+                                    <p class="mb-0 fs-9">Total count <span class="fw-bold">257</span></p>
                                 </div>
-                                <!--/.bg-holder-->
-                            </div>
-                            <div class="d-light-none">
-                                <div class="bg-holder d-none d-sm-block d-xl-none d-xxl-block bg-card"
-                                    style="background-image:url(assets/img/spot-illustrations/dark_21.png);background-position: bottom right; background-size: auto;">
+                                <hr class="bg-body-secondary mb-2 mt-2" />
+                          
+                                <div class="d-flex align-items-center mb-1"><span
+                                        class="d-inline-block bg-warning-light bullet-item me-2"></span>
+                                    <p class="mb-0 fw-semibold text-body lh-sm flex-1">Pending</p>
+                                    <h5 class="mb-0 text-body">63</h5>
                                 </div>
-                                <!--/.bg-holder-->
+                                <div class="d-flex align-items-center mb-1"><span
+                                        class="d-inline-block bg-danger-light bullet-item me-2"></span>
+                                    <p class="mb-0 fw-semibold text-body lh-sm flex-1">Failed</p>
+                                    <h5 class="mb-0 text-body">56</h5>
+                                </div>
+                                <div class="d-flex align-items-center mb-1"><span
+                                        class="d-inline-block bg-success-light bullet-item me-2"></span>
+                                    <p class="mb-0 fw-semibold text-body lh-sm flex-1">Success</p>
+                                    <h5 class="mb-0 text-body">36</h5>
+                                </div>
+ 
                             </div>
-                            <div class="card-body px-5 position-relative">
-                                <!-- <div class="badge badge-phoenix fs-10 badge-phoenix-warning mb-4"><span class="fw-bold">Coming soon</span><span class="fa-solid fa-award ms-1"></span></div> -->
-                                <h3 class="mb-5 mt-4 text-center">Motivational Quotes</h3>
-                                <p class="text-body-tertiary fw-semibold text-center">"Always Keep going forward,
-                                    no matter what the
-                                    situation" - JuKu001</p>
-                            </div>
-                            <div class="card-footer border-0 py-0 px-5 z-1">
-                                <!-- <p class="text-body-tertiary fw-semibold">Follow <a href="https://themewagon.com/">ThemeWagon </a>at <br class="d-none d-xxl-block" />Bootstrap Marketplace for updates.</p> -->
+                            <div class="col-12 col-md-6">
+                                <div class="position-relative mb-sm-4 mb-xl-0">
+                                    <div class="echart-issue-chart" style="min-height:390px;width:100%"></div>
+                                </div>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+@push('plugin-scripts')
+    <script src="{{ asset('assets/js/admin-dashboard.js') }}"></script>
+@endpush

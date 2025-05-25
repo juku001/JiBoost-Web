@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\CustomFunctions;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommunityController;
@@ -92,35 +93,45 @@ Route::middleware(['api.auth', 'lang'])->group(function () {
         });
     });
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::prefix('admin')->group(function () {
+    Route::middleware(['isAdmin'])->group(function () {
+        Route::prefix('admin')->group(function () {
+            Route::get('dashboard', [DashboardController::class, 'admin'])->name('dashboard.admin.home');
+            Route::get('users', [UsersController::class, 'index'])->name('dashboard.admin.users');
+            Route::get('users/{id}', [UsersController::class, 'show'])->name('dashboard.admin.users.show');
+            Route::get('payments', [PaymentController::class, 'admin'])->name('dashboard.admin.payments');
+            Route::get('quotes', [QuoteController::class, 'index'])->name('dashboard.admin.quotes');
+            Route::post('quote/add', [QuoteController::class, 'store'])->name('admin.quote.add');
+            // Route::get('exams', [ExamController::class, 'admin'])->name('dashboard.admin.exams');
+            Route::prefix('exams')->group(function () {
+                Route::get('add_series', [ExamController::class, 'add_series'])->name('admin.exams.add_series');
+                Route::post('add_series', [ExamController::class, 'series_add'])->name('admin.exams.series_add');
 
-        Route::get('dashboard', [DashboardController::class, 'admin'])->name('dashboard.admin.home');
-        Route::get('users', [UsersController::class, 'index'])->name('dashboard.admin.users');
-        Route::get('payments', [PaymentController::class, 'admin'])->name('dashboard.admin.payments');
-        Route::get('quotes', [QuoteController::class, 'index'])->name('dashboard.admin.quotes');
-        Route::post('quote/add', [QuoteController::class, 'store'])->name('admin.quote.add');
-        // Route::get('exams', [ExamController::class, 'admin'])->name('dashboard.admin.exams');
-        Route::prefix('exams')->group(function () {
-            Route::get('add_series', [ExamController::class, 'add_series'])->name('admin.exams.add_series');
-            Route::post('add_series', [ExamController::class, 'series_add'])->name('admin.exams.series_add');
+                Route::get('series', [ExamController::class, 'series'])->name('admin.exams.series');
+                Route::get('series/{levelSub}', [ExamController::class, 'show'])->name('admin.exams.series.show');
+                Route::get('series/{levelSub}/questions/{seriesId}', [ExamController::class, 'questions'])->name('admin.exams.questions.show');
+                Route::get('series/{levelSub}/questions/{seriesId}/add', [ExamController::class, 'addQuestions'])->name('admin.exams.questions.add');
+                Route::post('series/{levelSub}/questions/{seriesId}/add', [ExamController::class, 'questionAdd'])->name('admin.exams.questions.store');
 
-            Route::get('series', [ExamController::class, 'series'])->name('admin.exams.series');
-            Route::get('series/{levelSub}', [ExamController::class, 'show'])->name('admin.exams.series.show');
-            Route::get('series/{levelSub}/questions/{seriesId}', [ExamController::class, 'questions'])->name('admin.exams.questions.show');
-            Route::get('series/{levelSub}/questions/{seriesId}/add', [ExamController::class, 'addQuestions'])->name('admin.exams.questions.add');
-            Route::post('series/{levelSub}/questions/{seriesId}/add', [ExamController::class, 'questionAdd'])->name('admin.exams.questions.store');
+                Route::get('add_subjects', [ExamController::class, 'add_subjects'])->name('admin.exams.add_subjects');
+            });
 
-            Route::get('add_subjects', [ExamController::class, 'add_subjects'])->name('admin.exams.add_subjects');
+            Route::prefix('delete')->group(function () {
+                Route::get('question/{id}', [QuestionController::class, 'destroy'])->where('id', '[0-9]+')->name('admin.delete.question');
+            });
+
         });
-
-        Route::prefix('delete')->group(function () {
-            Route::get('question/{id}', [QuestionController::class, 'destroy'])->where('id', '[0-9]+')->name('admin.delete.question');
-        });
-
-    })->middleware('isAdmin');
+    });
 });
 
 
+
+Route::get('/tester', function (){
+
+    $id = 1;
+    $id = CustomFunctions::encrypt($id);
+    return $id;
+
+});
 
 
 

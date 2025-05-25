@@ -220,7 +220,7 @@ class ExamController extends Controller
         $token = (string) session(env('API_TOKEN_KEY'));
         $markingSystem = '';
 
-        try{
+        try {
             $response = Http::withToken($token)->get($url);
             if ($response->successful()) {
                 if ($response->getStatusCode() == 200) {
@@ -233,11 +233,11 @@ class ExamController extends Controller
                     'body' => $response->body()
                 ]);
             }
-        }catch (Exception $e){
+        } catch (Exception $e) {
             // Log the exception for debugging
             \Log::error('Exception in fetching series: ' . $e->getMessage());
         }
-        return view('admin.add_questions', compact('levelSub', 'seriesId','markingSystem'));
+        return view('admin.add_questions', compact('levelSub', 'seriesId', 'markingSystem'));
     }
 
 
@@ -269,28 +269,44 @@ class ExamController extends Controller
         $token = (string) session(env('API_TOKEN_KEY'), ''); // Provide a default empty string
 
         try {
-            $response = Http::withToken($token)->post($url, $data);
+            // Prepare multipart data
+            $multipartData = [];
+
+            foreach ($data as $key => $value) {
+                $multipartData[] = ['name' => $key, 'contents' => $value];
+            }
+
+            // If image exists, append it to the multipart data
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $multipartData[] = [
+                    'name' => 'image',
+                    'contents' => fopen($image->getPathname(), 'r'),
+                    'filename' => $image->getClientOriginalName(),
+                ];
+            }
+
+            $response = Http::withToken($token)->asMultipart()->post($url, $multipartData);
 
             if ($response->successful()) {
                 if ($response->getStatusCode() == 201) {
-                    $message = $response->json()['message'] ?? 'Successful added'; // Ensure 'data' exists, otherwise fallback to empty array
+                    $message = $response->json()['message'] ?? 'Successfully added';
                     $flasher->success($message);
                 }
             } else {
-                // Log the error if request fails but is not an exception
                 \Log::error('Failed to add question', [
                     'status' => $response->status(),
                     'body' => $response->body()
                 ]);
 
-                $flasher->error($response->json()['message']);
+                $flasher->error($response->json()['message'] ?? 'Unexpected error');
             }
 
         } catch (Exception $e) {
-            // Log the exception for debugging
-            \Log::error('Exception in fetching series data: ' . $e->getMessage());
-            $flasher->error($e->getMessage());
+            \Log::error('Exception in submitting question: ' . $e->getMessage());
+            $flasher->error('Error submitting question: ' . $e->getMessage());
         }
+
 
         return redirect()->back();
     }

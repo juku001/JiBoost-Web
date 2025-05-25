@@ -1,9 +1,11 @@
-@extends('layouts.sub_main')
-@section('title', 'Examination')
-@section('content')
     @php
         use App\Helpers\CustomFunctions;
     @endphp
+@extends('layouts.sub_main')
+@section('title', 'Examination')
+@section('new-route', route('examination.series',['id'=> CustomFunctions::encrypt($sub)]))
+@section('content')
+
     <div class="container-fluid min-vh-100 d-flex justify-content-center align-items-center overflow-hidden">
         <div class="text-center">
             <h1 class="jb-heading">{{ $series['title'] }}</h1>
@@ -22,7 +24,10 @@
                     <span>Number of Questions: <span class="fw-bold">{{ count($series['data']) }}</span></span>
                 </div>
                 <div class="mt-3">
-                    <a href="{{ route('examination.series.start', ['sub' => $sub, 'series' => $id]) }}"
+                    <a href="{{ route('examination.series.start', [
+                        'sub' => CustomFunctions::encrypt($sub),
+                        'series' => CustomFunctions::encrypt($id),
+                    ]) }}"
                         class="btn btn-jb-primary px-6 py-3">Start Exam</a>
                 </div>
             </div>

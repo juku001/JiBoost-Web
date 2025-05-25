@@ -36,13 +36,13 @@
 
             @if (empty($payments))
 
-            <div class="fluid-container">
-                <div class="row">
-                    <div class="col-12 text-center my-9">
-                        {{ __('payments.subtitle') }}
+                <div class="fluid-container">
+                    <div class="row">
+                        <div class="col-12 text-center my-9">
+                            {{ __('payments.subtitle') }}
+                        </div>
                     </div>
                 </div>
-            </div>
             @else
                 <div class="fluid-container">
                     <div class="row">
@@ -55,7 +55,7 @@
                                     $title = $payment['exam_history']['exam_count'] . ' PayPerExam';
                                 }
                             @endphp
-                            <a href="{{ route('dashboard.payments.show', ['id' => $payment['id']]) }}"
+                            <a href="{{ route('dashboard.payments.show', ['id' => CustomFunctions::encrypt($payment['id'])]) }}"
                                 style="text-decoration: none">
                                 <div class="fluid-container my-2">
                                     <div class="card p-3 shadow-sm">

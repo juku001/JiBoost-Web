@@ -27,7 +27,7 @@
                 @endphp
 
                 <div class="col-12 mb-1">
-                    <a href="{{ route('dashboard.results.show', ['id' => $result['id']]) }}"
+                    <a href="{{ route('dashboard.results.show', ['id' => CustomFunctions::encrypt($result['id'])]) }}"
                         class="text-decoration-none text-reset">
                         <div class="d-flex align-items-stretch bg-{{ $colorClass }}-subtle">
                             <!-- Left vertical colored bar -->

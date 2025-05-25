@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use DateTime;
+use Illuminate\Support\Facades\Crypt;
 
 
 class CustomFunctions
@@ -110,6 +111,21 @@ class CustomFunctions
             }
         }
         return $allow;
+    }
+
+
+
+
+    public static function encrypt($id)
+    {
+        $encryptedId = base64_encode($id);
+        return $encryptedId;
+    }
+
+    public static function decrypt($encrypt)
+    {
+        $decryptedId = base64_decode($encrypt);
+        return $decryptedId;
     }
 
 

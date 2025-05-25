@@ -13041,7 +13041,19 @@ input[type="radio"]:checked+.jb-radio::before {
 
 
 .login-item {
+  position: relative;
   width: 100%;
+}
+
+.login-item .toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 30px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+  color: #103259;
+  user-select: none;
 }
 
 

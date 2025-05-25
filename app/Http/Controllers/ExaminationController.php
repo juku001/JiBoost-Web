@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Helpers\CustomFunctions;
 use App\Helpers\FlasherHelper;
 use Carbon\Carbon;
 use Exception;
@@ -13,8 +14,7 @@ class ExaminationController extends Controller
     public function series($id)
     {
 
-
-
+        $id = CustomFunctions::decrypt($id);
         $apiRoutes = new ApiRoutes();
         $url = $apiRoutes->getSeriesBySubject($id);
         $subscriptionUrl = $apiRoutes->subscription();
@@ -52,6 +52,8 @@ class ExaminationController extends Controller
 
     public function examInfo($sub, $id)
     {
+        $id = CustomFunctions::decrypt($id);
+        $sub = CustomFunctions::decrypt($sub);
 
         $apiRoutes = new ApiRoutes();
         $url = $apiRoutes->getSeriesBySubject($sub);
@@ -75,6 +77,8 @@ class ExaminationController extends Controller
 
     public function startExam($sub, $id)
     {
+        $id = CustomFunctions::decrypt($id);
+        $sub = CustomFunctions::decrypt($sub);
         $questionId = $id;
         $apiRoutes = new ApiRoutes();
         $url = $apiRoutes->questions($questionId);
@@ -90,9 +94,15 @@ class ExaminationController extends Controller
 
     public function submitExam(Request $request, $sub, $series)
     {
+        $sub = (int) CustomFunctions::decrypt($sub);
+        $series = (int) CustomFunctions::decrypt($series);
 
-
-
+        // return response()->json(
+        //     [
+        //         'sub' => $sub,
+        //         'series' => $series
+        //     ]
+        // );
         $data = [
             'series_id' => (int) $request->series_id,
             'start_time' => Carbon::parse($request->start_time)->format('Y-m-d H:i'),
@@ -121,8 +131,8 @@ class ExaminationController extends Controller
 
                 FlasherHelper::success($message);
                 return redirect()->route('examination.series.show', [
-                    'sub' => $sub,
-                    'series' => $series
+                    'sub' => CustomFunctions::encrypt($sub),
+                    'series' => CustomFunctions::encrypt($series)
                 ]);
             } else {
                 FlasherHelper::error($response->json()['message']);

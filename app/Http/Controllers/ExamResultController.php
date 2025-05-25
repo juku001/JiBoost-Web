@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ApiRoutes;
+use App\Helpers\CustomFunctions;
 use App\Helpers\FlasherHelper;
 use Exception;
 use Http;
@@ -83,6 +84,7 @@ class ExamResultController extends Controller
 
     public function show($exam)
     {
+        $exam = CustomFunctions::decrypt($exam);
         $flasher = new FlasherHelper();
         $apiRoutes = new ApiRoutes();
         $url = $apiRoutes->examResultsById($exam);
@@ -104,7 +106,7 @@ class ExamResultController extends Controller
                 $questions = $responseQns->json()['data'];
             }
 
-            return view('dashboard.result-details', compact('exam','questions'));
+            return view('dashboard.result-details', compact('exam', 'questions'));
 
         } catch (Exception $e) {
             $flasher->error('Failed to fetch Exam Information');

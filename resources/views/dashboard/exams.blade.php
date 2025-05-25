@@ -3,6 +3,9 @@
 @section('sidebar')
     @include('customs.sidebar')
 @endsection
+@php
+    use App\Helpers\CustomFunctions;
+@endphp
 @section('content')
 
     <div class="content">
@@ -20,7 +23,7 @@
                                 @foreach ($level['subjects'] as $subject)
                                     <div class="col-xl-4 col-lg-4 col-md-4 col-7 scroll-item">
                                         <a
-                                            href="{{ route('examination.series', ['id' => $subject['education_level_subject_id']]) }}">
+                                            href="{{ route('examination.series', ['id' => CustomFunctions::encrypt($subject['education_level_subject_id'])]) }}">
                                             <div class="image-container w-100">
                                                 <img src="{{ $apiRoutes->baseUrl() . $subject['image'] }}"
                                                     alt="Chemistry Image">
