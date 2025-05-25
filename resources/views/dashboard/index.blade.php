@@ -57,7 +57,7 @@
                     </div>
 
 
-                    <div class="col-6">
+                    <div class="col-12 col-md-6">
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between mt-5 mb-5">
@@ -78,7 +78,7 @@
                         </div>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-12 col-md-6">
                         <div class="card border h-100 w-100 overflow-hidden">
                             <div class="bg-holder d-block bg-card"
                                 style="background-image:url(assets/img/spot-illustrations/32.png);background-position: top right;">
@@ -107,9 +107,6 @@
                                     <p class="text-body-tertiary fw-semibold text-center">"{{ $quote['quote'] }}" -
                                         {{ $quote['author'] }}</p>
                                 @endif
-                            </div>
-                            <div class="card-footer border-0 py-0 px-5 z-1">
-                                <!-- <p class="text-body-tertiary fw-semibold">Follow <a href="https://themewagon.com/">ThemeWagon </a>at <br class="d-none d-xxl-block" />Bootstrap Marketplace for updates.</p> -->
                             </div>
                         </div>
                     </div>
