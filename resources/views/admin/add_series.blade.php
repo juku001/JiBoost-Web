@@ -71,8 +71,29 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-12 col-md-4 mt-3">
+                            <div class="form-group" id="instructions-wrapper">
+                                <label for="instructions">Series Instructions</label>
+                                <div class="instruction-input mb-2">
+                                    <input type="text" name="instructions[]" class="form-control"
+                                        placeholder="Enter instruction">
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-subtle-secondary" onclick="addInstruction()">Add +</button>
 
-                        <div class="col-12 mt-3">
+                            <script>
+                                function addInstruction() {
+                                    const wrapper = document.getElementById('instructions-wrapper');
+                                    const div = document.createElement('div');
+                                    div.className = 'instruction-input mb-2';
+                                    div.innerHTML =
+                                    `<input type="text" name="instructions[]" class="form-control" placeholder="Enter instruction">`;
+                                    wrapper.appendChild(div);
+                                }
+                            </script>
+                        </div>
+
+                        <div class="col-12 mt-5">
                             <button class="btn btn-subtle-primary">Save</button>
                         </div>
                     </div>

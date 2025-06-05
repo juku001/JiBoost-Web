@@ -53,7 +53,8 @@ class ExamController extends Controller
             'name' => 'required',
             'isTrial' => 'required|in:1,0',
             'duration' => 'nullable|numeric',
-            'marking' => 'required|in:ems,wms'
+            'marking' => 'required|in:ems,wms',
+            'instructions' => 'nullable'
         ]);
 
         $flasher = new FlasherHelper();
@@ -65,21 +66,32 @@ class ExamController extends Controller
             return redirect()->back();
         }
 
+        $instructions = null;
+        if (isset($request->instructions)) {
+
+            $cleaned = array_filter($request->instructions);
+            $instructions = array_values($cleaned);
+        }
+
         $data = [
             'level_key' => $request->level,
             'subject_id' => (int) $request->subject,
             'title' => $request->name,
             'isTrial' => (int) $request->isTrial,
             'duration' => (int) $request->duration,
-            'marking' => $request->marking
+            'marking' => $request->marking,
+            'instructions' => $instructions
         ];
 
+        // return response()->json($data);
         $apiRoutes = new ApiRoutes();
         $url = $apiRoutes->assignSeries();
         $token = session(env('API_TOKEN_KEY'));
         try {
 
             $response = Http::withToken((string) $token)->post($url, $data);
+
+            // return response()->json($response->json());
             if ($response->successful()) {
 
                 if ($response->getStatusCode() == 201) {
@@ -91,7 +103,7 @@ class ExamController extends Controller
                 $flasher->error($error);
             }
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $flasher->error($e);
         }
         return redirect()->back();
