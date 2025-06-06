@@ -261,6 +261,7 @@ class ExamController extends Controller
             'option_b' => 'required',
             'option_c' => 'required',
             'option_d' => 'required',
+            'option_e' => 'required',
             'correct_option' => 'required',
             'image' => 'nullable|image|max:2048', // Ensure it's an image & restrict format
             'mark' => 'nullable|numeric'
@@ -320,6 +321,13 @@ class ExamController extends Controller
         }
 
 
+        return redirect()->back();
+    }
+
+
+
+    public function destroy($level, $id)
+    {
         return redirect()->back();
     }
 }

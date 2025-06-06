@@ -69,6 +69,7 @@
                         <option value="option_b">Second Answer</option>
                         <option value="option_c">Third Answer</option>
                         <option value="option_d">Fourth Answer</option>
+                        <option value="option_e">Fifth Answer</option>
                     </select>
                 </div>
 
@@ -119,6 +120,12 @@
                 </div>
                 <div class="col-xxl-6 col-xl-6 col-md-6 col-12 mb-2">
                     <div class="form-group">
+                        <label for="option_e">Fifth Answer</label>
+                        <input type="text" class="form-control" name="option_e" required>
+                    </div>
+                </div>
+                <div class="col-xxl-6 col-xl-6 col-md-6 col-12 mb-2">
+                    <div class="form-group">
                         <label for="correct_option">Correct Option</label>
                         <select name="correct_option" id="correct" class="form-control" required>
                             <option value="">Select Correct Option</option>
@@ -126,6 +133,7 @@
                             <option value="option_b">Second Answer</option>
                             <option value="option_c">Third Answer</option>
                             <option value="option_d">Fourth Answer</option>
+                            <option value="option_e">Fifth Answer</option>
                         </select>
                     </div>
                 </div>
@@ -136,12 +144,12 @@
                     </div>
                 </div>
                 @if ($markingSystem == 'wms')
-                <div class="col-xxl-6 col-xl-6 col-md-6 col-12 mb-2">
-                    <div class="form-group">
-                        <label for="mark">How much for this question?(marks)</label>
-                        <input type="text" class="form-control" name="mark" required placeholder="Eg 2">
+                    <div class="col-xxl-6 col-xl-6 col-md-6 col-12 mb-2">
+                        <div class="form-group">
+                            <label for="mark">How much for this question?(marks)</label>
+                            <input type="text" class="form-control" name="mark" required placeholder="Eg 2">
+                        </div>
                     </div>
-                </div>
                 @endif
                 <div class="col-12 text-left">
                     <button class="btn btn-primary">Save</button>

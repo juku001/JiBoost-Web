@@ -109,6 +109,7 @@ Route::middleware(['api.auth', 'lang'])->group(function () {
                 Route::get('series', [ExamController::class, 'series'])->name('admin.exams.series');
                 Route::get('series/{levelSub}', [ExamController::class, 'show'])->name('admin.exams.series.show');
                 Route::get('series/{levelSub}/questions/{seriesId}', [ExamController::class, 'questions'])->name('admin.exams.questions.show');
+                Route::get('series/{levelSub}/questions/{seriesId}/delete', [ExamController::class, 'destroy'])->name('admin.exams.questions.delete');
                 Route::get('series/{levelSub}/questions/{seriesId}/add', [ExamController::class, 'addQuestions'])->name('admin.exams.questions.add');
                 Route::post('series/{levelSub}/questions/{seriesId}/add', [ExamController::class, 'questionAdd'])->name('admin.exams.questions.store');
 

@@ -32,12 +32,19 @@
 @section('content')
     <div class="content">
         <div class="mb-9">
-            <div>
-                <h2 class="mb-4">Question List<span class="text-body-tertiary fw-normal">({{ count($questions) }})</span>
-                </h2>
-                <a class="fw-bold fs-9 mt-2"
-                    href="{{ route('admin.exams.questions.add', ['levelSub' => $levelSub, 'seriesId' => $seriesId]) }}"><span
-                        class="fas fa-plus me-1"></span>Add Question</a>
+            <div class="d-flex justify-content-between">
+                <div>
+                    <h2 class="mb-4">Question List<span
+                            class="text-body-tertiary fw-normal">({{ count($questions) }})</span>
+                    </h2>
+                    <a class="fw-bold fs-9 mt-2"
+                        href="{{ route('admin.exams.questions.add', ['levelSub' => $levelSub, 'seriesId' => $seriesId]) }}"><span
+                            class="fas fa-plus me-1"></span>Add Question</a>
+                </div>
+                <div>
+                    <a href="{{ route('admin.exams.questions.delete', ['levelSub' => $levelSub, 'seriesId' => $seriesId]) }}"
+                        class="fw-bold fs-9 mt-2 text-danger"><span class="fas fa-trash me-1"></span> Delete Series</a>
+                </div>
             </div>
             <div class="mb-4 todo-list">
                 @foreach ($questions as $index => $question)
@@ -140,6 +147,21 @@
                                             {{ $question['option_d'] }}</label>
                                     </div>
                                     @if ($question['correct_option'] == 'option_d')
+                                        <div class="">
+                                            <span class="badge badge-phoenix fs-10 badge-phoenix-success"><span
+                                                    class="badge-label">Correct</span><span class="ms-1"
+                                                    data-feather="check"
+                                                    style="height:12.8px;width:12.8px;"></span></span>
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="d-flex flex-between-center hover-actions-trigger py-3 border-top">
+                                    <div class="form-check mb-1 mb-md-0 d-flex align-items-center lh-1 min-h-auto">
+                                        <label for="">E. </label>
+                                        <label class="form-check-label mb-0 fs-8" for="subtask04">
+                                            {{ $question['option_e'] }}</label>
+                                    </div>
+                                    @if ($question['correct_option'] == 'option_e')
                                         <div class="">
                                             <span class="badge badge-phoenix fs-10 badge-phoenix-success"><span
                                                     class="badge-label">Correct</span><span class="ms-1"
