@@ -25,6 +25,18 @@
                         </a>
                     </div>
                 </li>
+                <li class="nav-item {{ Request::is('admin/notifications') ? 'active' : '' }}">
+                    <div class="nav-item-wrapper">
+                        <a class="nav-link label-1 {{ Request::is('admin/notifications') ? 'active' : '' }}"
+                            href="/admin/notifications">
+                            <div class="d-flex align-items-center">
+                                <div class="dropdown-indicator-icon-wrapper"></div>
+                                <span class="nav-link-icon"><span data-feather="bell"></span></span>
+                                <span class="nav-link-text">Notifications</span>
+                            </div>
+                        </a>
+                    </div>
+                </li>
                 <li class="nav-item {{ Request::is('admin/payments') ? 'active' : '' }}">
                     <div class="nav-item-wrapper">
                         <a class="nav-link label-1 {{ Request::is('admin/payments') ? 'active' : '' }}"

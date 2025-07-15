@@ -97,6 +97,8 @@ Route::middleware(['api.auth', 'lang'])->group(function () {
         Route::prefix('admin')->group(function () {
             Route::get('dashboard', [DashboardController::class, 'admin'])->name('dashboard.admin.home');
             Route::get('users', [UsersController::class, 'index'])->name('dashboard.admin.users');
+            Route::get('notifications', [NotificationController::class, 'admin'])->name('dashboard.admin.notifications');
+            Route::post('notifications', [NotificationController::class, 'sendAdmin'])->name('dashboard.admin.notifications.send');
             Route::get('users/{id}', [UsersController::class, 'show'])->name('dashboard.admin.users.show');
             Route::get('payments', [PaymentController::class, 'admin'])->name('dashboard.admin.payments');
             Route::get('quotes', [QuoteController::class, 'index'])->name('dashboard.admin.quotes');

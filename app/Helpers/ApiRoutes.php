@@ -294,4 +294,9 @@ class ApiRoutes
     {
         return self::apiUrl() . 'display/photo';
     }
+
+    static function sendSMS()
+    {
+        return self::apiUrl() . 'send/sms';
+    }
 }
